@@ -1,7 +1,6 @@
 var ladderLength = function(beginWord, endWord, wordList) {
     const adjacencies = new Map();
     const getGeneric = (str, i) => `${str.substring(0, i)}*${str.substring(i + 1)}`;
-    
     const visited = new Map();
     const queue = [];
     
