@@ -19,7 +19,7 @@ var ladderLength = function(beginWord, endWord, wordList) {
     // Queue for BFS
     queue.push([beginWord, 1]); // 1 represents the level number of a node
     visited.set(beginWord, true); // to prevent cycles, use a visited dictionary
-
+    
     while (queue.length !== 0) {
         const [word, level] = queue.shift();  //get first element in queue
         for (let i = 0; i < word.length; i++) {
