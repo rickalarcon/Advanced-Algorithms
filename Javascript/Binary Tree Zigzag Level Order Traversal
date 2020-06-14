@@ -1,0 +1,28 @@
+// Idea
+// step 1: store each node with their level. ex: res[1] = [20,9] 
+// step 2: make index of "res" for each level. if the level is odd then add to the front of the array, if the level is even push to the back.
+// step 3: add to the queue by checking the left and right values with the next level of the tree.
+//note: dfs is left to right , so we do some changes to make it happen for right to left
+function zigzagLevelOrder(root) {
+
+    let res = [];
+    go(root,0,res);
+    return res;
+
+function go(node,l,res){   // l means level
+    
+    if(!node) return;
+    
+    if(!res[l] ){ res.push([]); } // ex. res[0] =[...] , res[1] = [...]
+    
+    if(l%2 == 0){ //pair levels
+        res[l].push(node.val)
+    }else{        //impair levels   
+        res[l].unshift(node.val)
+    }
+    go(node.left, l+1,res); //everytime we call we increase the level..
+    go(node.right,l+1,res);
+
+}
+    
+};
