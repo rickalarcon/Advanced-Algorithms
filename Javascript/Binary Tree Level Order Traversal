@@ -14,5 +14,5 @@ var levelOrder = function(root) {
         go(node.left,l+1,res); //first we add left numbers, then we do right numbers
         go(node.right,l+1,res);
         
-    }
+   }
 };
