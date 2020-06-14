@@ -1,0 +1,41 @@
+var verticalTraversal = function(root) {
+    
+    let toLeft = null;
+    let dfs = function(root, id) {
+        if (!root) return;
+        dfs(root.left, id - 1);
+        toLeft = Math.min(toLeft, id);
+        dfs(root.right, id + 1);
+
+    }
+    
+    // find left boundary
+    dfs(root, 0);
+    
+    let arr = [];
+    let dfs2 = function(root, x, y) {
+        if (!root) return;
+        if (arr[x - toLeft]==null) arr[x - toLeft] = {}; //record vertical index from "toLeft"
+    //x-toleft is the vertical distance from toLeft to x, values from 0 to 3,4,5 etc
+        if (arr[x-toLeft][y] == null) arr[x-toLeft][y] = []; // arr = [{..:[]},{..:[]}]
+        arr[x - toLeft][y].push(root.val);      //pushing values like arr = [{1: values},{..}]
+
+        dfs2(root.left, x- 1, y + 1);
+        dfs2(root.right, x + 1, y + 1);
+    }
+    
+    dfs2(root, 0, 0);
+    //note: vertical = vertical index = array index of arr
+    //note: horizontal level = keys in arr 
+    //after df1 is done, it will give us our arr completed so we can do df2 next
+    let res = arr.map((vertical)=>{
+        let v = [];
+        Object.keys(vertical).forEach((level)=>{
+            vertical[level].sort((a,b)=>a-b); //ascending order
+            v.push(...vertical[level]);
+        }) //get value for each vertical and sort it..
+        return v;
+    });
+    return res;
+    
+};
