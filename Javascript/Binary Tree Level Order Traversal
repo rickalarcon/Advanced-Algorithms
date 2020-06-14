@@ -1,0 +1,18 @@
+// Idea:
+// 1) nodes of same level will be held in "res" by its index. ex. res=[[3],[9,20]] 
+// 2) our DFS called go() will scan from left to right :)
+// 3) return res;
+var levelOrder = function(root) {
+    let res =[];
+    go(root,0,res);
+    return res;
+    
+    function go(node,l,res){ //l means level
+        if(!node) return
+        if(!res[l]) { res.push([])}
+        res[l].push(node.val)
+        go(node.left,l+1,res); //first we add left numbers, then we do right numbers
+        go(node.right,l+1,res);
+        
+    }
+};
