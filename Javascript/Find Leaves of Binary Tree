@@ -1,0 +1,21 @@
+//Idea:
+// From observation, we can see that nodes with the same height will be cut together. In addition, we will be cutting from height 0, to the top.
+//parent value position will be determined based on the height level its children was placed.
+
+var findLeaves = function(root) {
+    if(!root) return [];
+    let ans = [];
+    trim(root);
+    return ans;
+    
+    function trim(node) {
+        if(!node) return -1;       //just for the lefts, cuz its node.left=null, so we                                          return -1, so its height level start with 0
+                                    // first leaft we be height=0 then its parents will be in heighter = 1 and so on. in that process we add to the ans=[[4,5,3],[2],..]
+        const left = trim(node.left);
+        const right = trim(node.right);
+        const height = Math.max(left, right) + 1;
+        if(!ans[height]) ans[height]=[];
+        ans[height].push(node.val);
+        return height;
+    }
+};
