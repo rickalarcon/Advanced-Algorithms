@@ -1,0 +1,16 @@
+// Idea:
+// 1) we use dfs to get inorder traversal
+// 2) First scan we go to left side then to right side
+
+var inorderTraversal = function(root) {
+    var arr = [];
+    function traverse(node){
+     if(!node) return
+    traverse(node.left);      //think from end to start, when left side is      done, then we push the initical root value and contunie to the right side..
+    arr.push(node.val); //push left sides first , then right sides
+    traverse(node.right);
+    }
+    traverse(root);
+    
+  return arr;
+};
