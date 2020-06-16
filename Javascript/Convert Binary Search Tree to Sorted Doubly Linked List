@@ -1,0 +1,31 @@
+var treeToDoublyList = function(root) {
+    var first = null,
+        last = null;
+    function inordertraverse(node){
+        if(node !== null){
+            //left
+           inordertraverse(node.left);
+           //node 
+            if(last !== null) { 
+                 // link the previous node (last)
+                 // with the current one (node)
+                last.right = node;
+                node.left = last;}
+            else{ 
+                // keep the smallest node
+                // to close DLL later on
+                first = node;
+                }
+            last = node;
+            //right
+           inordertraverse(node.right)
+        }
+    }
+    
+  if(!root) return null;
+   inordertraverse(root);
+    //close DLL
+      last.right = first;
+      first.left = last;
+  return  first;
+};
