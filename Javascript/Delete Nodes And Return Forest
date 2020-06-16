@@ -1,0 +1,15 @@
+ var delNodes = function(root, to_delete) {
+    if(!root) return []
+    var ans = [];
+ let traverse = (node, isRoot) => {
+     if(!node) return;
+     let isNodeDeleted = to_delete.includes(node.val);
+     if(node.left) node.left  = traverse(node.left,isNodeDeleted)
+     if(node.right) node.right = traverse(node.right,isNodeDeleted)
+     if(isRoot && !isNodeDeleted) ans.push(node); //note: when the node isDeleted = true, it pass it to its childresn so his chidren has isRoot=true so they are added into ans if they are not deleted :)
+     return isNodeDeleted? null : node; 
+ }
+ 
+ traverse(root,true);
+return ans
+};
