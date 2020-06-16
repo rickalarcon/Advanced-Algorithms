@@ -1,0 +1,34 @@
+//Idea:
+//Utilize the fact BST can be reconstructed from preorder/postorder array
+
+var serialize = function(root) {
+    let preorder = [];
+    let dfs = function(node) {
+        if (node==null) return;
+        preorder.push(node.val);  //at start, we push the first root then scan to left, then                                         right
+        dfs(node.left);
+        dfs(node.right);
+    }
+    dfs(root);
+    return preorder.join(',');   //important to do the "join"
+};
+
+/**
+ * Decodes your encoded data to tree.
+ *
+ * @param {string} data
+ * @return {TreeNode}
+ */
+ var deserialize = function(data) {
+    if (data == '') return null;
+    let preorder = data.split(','); //important to do the "split"
+    let recur = function(lower, upper) {
+        if (Number(preorder[0]) < lower || Number(preorder[0]) > upper) return null;
+        if (preorder.length == 0) return null;
+        let root = new TreeNode(preorder.shift()); //getting "root" from its head
+        root.left = recur(lower, root.val);        //cuz in BST , left<root<right
+        root.right = recur(root.val, upper);       //cuz in BST, left<root<right
+        return root;
+    }
+    return recur(-Infinity, Infinity);
+};
