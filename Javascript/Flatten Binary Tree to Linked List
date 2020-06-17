@@ -1,0 +1,19 @@
+var flatten = function(root) {
+     // right, left, root -> postorder dfs
+    // set left child to null & set right child to the previous node
+    var prev = null;
+     function traverse(node){
+         if(node){
+             
+         traverse(node.right);
+         traverse(node.left);
+
+          //task
+          node.left = null;
+          node.right = prev;   //this prev is from past node
+          prev = node;         //set current node as "prev" now
+         }
+     }
+
+    traverse(root);   
+    };
