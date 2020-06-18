@@ -1,0 +1,20 @@
+//Idea:
+1) First we do in-order dfs recursion
+2) then we find the sucessor with the smallest value
+2) and return it
+var inorderSuccessor = function(root, p) {
+       // var x= p.val+1;
+        var ans =Infinity;
+        var res= null;
+    function inordersearch(node,x){
+       if(!node ) {return}
+      if(node.val >=x){ ans = Math.min(node.val,ans);
+                         if(ans ==node.val){res = node}}
+       
+        inordersearch(node.left,p.val+1);
+       inordersearch(node.right,p.val+1);
+    };
+    inordersearch(root,p.val+1);
+
+    return res;
+};
