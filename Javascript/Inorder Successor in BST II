@@ -1,0 +1,16 @@
+var inorderSuccessor = function(node) {
+    
+    //if the node has a right child, then 
+    // the successor is somewhere lower in the right subtree
+    if (node.right != null) {
+      node =  node.right;
+      while (node.left != null) node = node.left; //cuz if left exist the we can find the                                                   //smaller some here that are succesor!
+      return node; //smallest succesor
+    }
+    // if the node has no right child, then
+    // the successor is somewhere upper in the tree
+    
+    while (node.parent != null && node == node.parent.right) node = node.parent; //this will run in the "right side subtree", for left side subtree it wont run so we will return directly node.parent.
+    return node.parent;
+
+};
