@@ -1,0 +1,70 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+/*
+Most of the tree problems, recurssion is the easiest way to start.
+Then, we need to figure out what we want to get from each of the node.
+We want to know the max value we can get if we rob it or not, [rob, not].
+If the node is a leaf, it's [0,0],
+if it's not a leaf:
+
+if we rob it, then we can't rob its leaves. //this is the first part of the return..
+if we do not rob it, then we need to find the max from the combinations of the leaves. //second part in the return..
+*/
+
+var rob = function(root) {
+    function helper(node){
+        //If the node is a leaf, it's [0,0],
+        if(!node) return [0,0];
+        const [lr,ln] = helper(node.left);
+        const [rr, rn] = helper(node.right);
+        
+        return [node.val + ln + rn, Math.max(lr+rr,lr+rn, ln+rr, ln+rn)];
+    }
+    
+    return Math.max(...helper(root));
+};
+
+
+//Solution 2
+// Max money thief in 1 night (without aletring police - alert if 2 derictly linked house were broken)
+// var rob = function(root) {
+    
+//     var level =[];
+    
+//     function leveltraverse(node,l){
+//         if(!node) return
+//         if(!level[l]){ level[l] = [];}
+//         level[l].push(node.val);       
+//         leveltraverse(node.left,l+1);
+//         leveltraverse(node.right,l+1); 
+        
+//     }
+//     if(!root) return null;
+//     leveltraverse(root,0)
+
+//     //sum pair levels
+// var pairsum = null ;
+//     //sum impair level;
+// var impairsum = null;
+//     //get the sums for pair and impair levels
+//     level.forEach( (e,index) =>{   
+//         if(index%2 ==0){
+//            var pivot = e.reduce((acc,e) => acc+e,0);   //sum elements of each item     
+//             pairsum = pairsum? pairsum+pivot: pivot   // then accumulate sums in pairsum
+//         } else {
+//              var pivot = e.reduce((acc,e) => acc+e,0);
+//              impairsum = impairsum? impairsum+pivot: pivot}
+//     }        
+//                  );    
+// return   Math.max(pairsum,impairsum);  //find max sum
+// };
