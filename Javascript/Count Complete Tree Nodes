@@ -1,0 +1,20 @@
+//Idea:
+// 1) we just do a post-order traversal
+// 2) and count # of nodes in our array
+var countNodes = function(root) {
+    
+    var arr = [];
+    function search(node){
+     if(!node) return   
+    search(node.left);
+    search(node.right);
+    arr.push(node.val);
+
+    }
+    
+    if(!root) return null;
+    search(root)
+    console.log(arr)
+return arr.length;
+    
+};
