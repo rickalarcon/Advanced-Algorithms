@@ -1,0 +1,15 @@
+function flipEquiv(root1,root2) {     
+  //    Case 1: equivalent nodes
+     if (root1 == root2) {return true};
+  //  Case 2: different nodes
+     if (root1 == null || root2 == null || root1.val != root2.val)
+      {return false};
+
+  //    Case3: Check if childrens are equvalent; there are Two different types to pair      //childrens
+return (flipEquiv(root1.left, root2.left) && flipEquiv(root1.right, root2.right)
+        ||
+       flipEquiv(root1.left, root2.right) && flipEquiv(root1.right, root2.left));   
+}
+
+    
+    
