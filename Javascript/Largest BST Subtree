@@ -1,0 +1,20 @@
+function largestBSTSubtree(root) {
+  let max = 0;
+  dfs(root);
+  return max;
+  
+  function dfs(v) {
+    if (!v) return [0, Number.MAX_VALUE, -Number.MAX_VALUE];
+    const [ls, lmin, lmax] = dfs(v.left);
+    const [rs, rmin, rmax] = dfs(v.right);
+    if (ls >= 0 && rs >= 0 && v.val > lmax && rmin > v.val) {
+      max = Math.max(max, ls+rs+1);
+      return [
+        ls+rs+1, 
+        Math.min(v.val, lmin),
+        Math.max(v.val, rmax),
+      ];
+    }
+    return [-1, 0, 0];
+  }
+}
