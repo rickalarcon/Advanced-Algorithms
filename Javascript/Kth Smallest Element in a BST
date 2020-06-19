@@ -1,0 +1,16 @@
+var kthSmallest = function(root, k) {
+    
+    var arr = [];
+    function search(node,k){
+    if(!node) return
+    search(node.left,k)
+    search(node.right,k)
+        arr.push(node.val);
+        if(arr.length>k){ return }   //if arr bigger than k then we return cuz we also                                      care about the k-1 index of the array
+    }
+    if(!root) return null
+    search(root,k);         //traverse tree using post-order traverse
+    arr.sort((a,b) => a-b); //sort in ascending order
+     var res = arr[k-1];    //get Kth smallest value
+return res
+};
