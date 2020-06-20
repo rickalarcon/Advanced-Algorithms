@@ -1,0 +1,49 @@
+// Idea: We are using Coloring by DFS
+// 1) To be bipartile, each subset has to have different color
+// 2) lets say we start with blue then its neighbors will be red and so on
+// 3) we can not have 2 colors in the same subsets
+// const isBipartite = function(graph) {
+//   const colors = new Map();
+const isBipartite = graph => {
+     const colors = new Map();
+  for (let u = 0; u < graph.length; u++) {       //Go thourh each item in grapth
+    if (!dfs(graph, colors, u, 0)) return false; // u is the index of each item
+  }
+  
+  return true;
+};
+
+const dfs = (graph, colors, u, color) => { // we start with u=0 and color =0
+  if (!colors.has(u)) {
+    colors.set(u, color);  //creating a Adjacent list like { 0: 1}
+      console.log(u,colors,"&&")
+    for (let v of graph[u]) { //getting numbers from graph[u]
+      if (!dfs(graph, colors, v, 1 - color) || colors.get(v) === color) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+};
+
+
+//Example for individual nodes in a grapth..
+// function dfs(v,c){
+    
+//      vis[v] =1;
+//      col[v] =c;
+    
+//     for(let child of graph[v]){
+        
+//         if(vis[child] == 0)
+//             {
+//                 if(dfs(child,1) == false) return false;
+                
+//             }
+//         else{ if(col[v] == col[child]) return false;
+//             }
+//         return true; 
+//     }}
+//   dfs(0,0);  
+// }
