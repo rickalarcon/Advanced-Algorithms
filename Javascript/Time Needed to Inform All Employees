@@ -1,0 +1,15 @@
+//Create adjacency list and perform DFS to find the max cost. The max cost is acculumated back up the recursive stack.
+//               function(n, headID, manager, informTime)
+var numOfMinutes = function(N, root, parent, informTime) {
+    let adj = [...Array(N)].map(row => []);
+    for (let i = 0; i < N; ++i)
+        if (parent[i] > -1)
+            adj[parent[i]].push(i); //basically we are mapping each manager id(each is the index) with his employees id
+                                    // ex: [ [], [], [ 0, 1, 3, 4, 5 ], [], [], [] ]
+    let go = (i, max) => {
+        for (let j of adj[i])  //get all employes under manager "i"(which we know it is the index of the adj list)
+            max = Math.max(max, informTime[i] + go(j,0)); //everytime we run go() is start with max=0 so we can return the real                                                               // values for each dfs and so on
+        return max;
+    };
+    return go(root,0);
+};
