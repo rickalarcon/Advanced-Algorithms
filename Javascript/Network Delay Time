@@ -1,0 +1,28 @@
+// Idea:
+// Using   Bellman-Ford algorithm
+// The Bellman–Ford algorithm is an algorithm that computes shortest paths from a single source vertex to all of the other vertices in a weighted digraph
+
+var networkDelayTime = function(times, N, K) {
+    /// we use N+1 so that the index matches graph node
+    const time = Array(N +1).fill(Infinity); //if N=4 then time=[Inf,inf,inf,inf,inf]
+    time[K] = 0;                              //time =[inf,inf,0,inf,inf]
+   
+    /// we need to iterate at most N-1 times (cuz their are N-1 conections )
+    for (let i = 1; i < N; i++) {
+            let count = 0;
+        for (const [u, v, t] of times) {
+            if (time[u] === Infinity) continue;
+            if (time[v] > time[u] + t) {
+                time[v] = time[u] + t;   //accumulating time for each indexes in time
+                count+=1;
+            }
+        }
+        if (count === 0) break;
+    }
+
+    /// we remove the first element because we never used it
+    time.shift();
+   // console.log(time)
+    let res = Math.max(...time);
+    return res === Infinity ? -1 : res;
+};
