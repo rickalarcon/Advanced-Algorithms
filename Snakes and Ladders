@@ -1,0 +1,27 @@
+var snakesAndLadders = function(board) {
+  const N = board.length;
+  const getLoc = (pos) => {              //to get the index location for each values like 1,2,3...36
+    let row = Math.floor((pos - 1) / N);
+    let col = (pos - 1) % N;
+    col = (row % 2) === 1 ? N - col - 1 : col; //if row is impair, then col =N-col-1 ; if row is pair, then col = col
+    row = N - row - 1;
+    return [row,col];
+  }
+  console.log(getLoc(5))
+  const q = [1];          //queue start with first value
+  const v = {'1': 0};
+  while(q.length) {
+    const n = q.shift();  //get first element from queue and pop it off
+    if(n === N*N) return v[n];    //return total moves (which is the shortest path)
+    for(let i = n+1; i <= Math.min(n+6, N*N); i++) { //which position we can only advance 1 to 6 furhter, max.min help us stay in boundary  
+      const [r, c] = getLoc(i);                      //when we reach the last level
+      const next = board[r][c] === -1 ? i : board[r][c]; // if value is not -1 then we jump to the new "destination at board[r][c]"
+      if(v[next] === undefined) {
+        q.push(next);             //push new position "next" to the queue
+        v[next] = v[n] + 1;       //increase moves, now at position "next" we will have total moves of "v[n]+1"
+      }
+    }
+  }
+  
+  return -1;
+};
