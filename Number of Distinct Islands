@@ -1,0 +1,85 @@
+//Idea:
+// 1) Using DFS and Set, we scan all grid
+// 2) if 1(#) then we replace it with 0 and to dfs
+//         3) we keep track of their path as a string and compare with other islands
+// 4) we path is already in set we dont count it, hence we dont wanna increase our cnt values :)
+// * means 0, # means 1
+var numDistinctIslands = function(grid) {
+	const m = grid.length;
+	const n = grid[0].length;
+	const set = new Set();
+	let cnt = 0;
+
+	for (let i = 0; i < m; i++) {      //scanning all the grid
+		for (let j = 0; j < n; j++) {
+			if (grid[i][j] === 1) {    //if 1, then we create its path , and run dfs to find its neighbors
+				let path = [];         // every island will start with path=[], 
+				dfs(i, j, path, '#');
+				path = path.join('');  //making the array into 1 string so we can compare it in our "set"
+                console.log(path)
+				if (!set.has(path)) { // then we will check if the path of that island is already in our "set"!
+					set.add(path);
+					cnt++;
+				}
+			}
+		}
+	}
+
+	return cnt;
+
+	function dfs(i, j, path, dir) {
+		if (i < 0 || i >= m || j < 0 || j >= n || grid[i][j] === 0) {
+			path.push('*');
+			return;
+		}
+
+		grid[i][j] = 0;          //when 1, we changed it to "0"
+		path.push(dir);
+		dfs(i-1, j, path, '#');
+		dfs(i+1, j, path, '#');
+		dfs(i, j-1, path, '#');
+		dfs(i, j+1, path, '#');
+	}
+};
+
+//Extra: Solution 2
+//Count Islands
+//This doesnt show distinct islands by translating them, it is just the simply version as template :)
+// var numDistinctIslands = function(grid) {
+//                 //right,down,left,top
+//     var rows = grid.length;
+//     var cols = grid[0].length;
+//     var dirs = [[0,1],[1,0],[0,-1],[-1,0]];
+//     var count = 0;
+//     var shapes = [];
+//     var go = function(i,j){
+//         for(let [a,b] of dirs){
+//            var x = i + a;
+//            var y = j + b;
+//             if(x<0 || x>=rows ||y<0 || y>=cols){ continue;}
+//             else if(grid[x][y]==1 ){ grid[x][y] = 0;       //if a item is 1 then we changed to 0 and
+//                                      shapes[q].push([q-x,w-y]);
+//                                      go(x,y);
+                                    
+//                                         }             // we run bfs to scan further  
+//         }
+//         return ;
+//     };
+//     for(var i=0;i<rows;i++){  //explore all the grid
+//      for(var j=0;j<cols;j++){
+         
+//        if(grid[i][j] == 1){  //if element is 1 then change it to run and run bfs "go"
+//            var q = i;
+//            var w = j;
+//            if(!shapes[q]){shapes[q]=[];
+//                            shapes[q].push([i-q,j-w]) }
+//            grid[i][j] = 0;
+//            go(i,j);
+//           // shapes[q].sort((a,b) => shapes[][])
+//            count++;          //after making all its neighobers 0, then we count the island
+//        }        
+//      }
+//         //check unique values only
+//     }
+//     console.log(count,shapes);
+// };
