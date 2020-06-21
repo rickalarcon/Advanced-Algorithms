@@ -1,0 +1,39 @@
+ var openLock = function(deadends, target) {
+     let q = [target];
+     let mem = {};
+     mem[target] = 0;
+     
+     let getNextPositions = function (pos){
+        let dir =[-1,1];
+        let arr = pos.split('');
+        let positions = [];
+        let i,j;
+         
+        for(j=0;j<2;j++){
+            let next = '';
+            for(i=0; i< 4 ;i++){
+                let n = (10 + parseInt(arr[i]) + dir[j])%10; //10 in front is to avoid negative numbers(10+0-1)
+                let next = [...arr];
+                next[i]=n; //updating position
+                positions.push(next.join(''));
+            }
+        } 
+        return positions; //we will end up with 8 different positions each time we call dfs, note we start with                             target so find the //shortest path to 0000 later in our algorith
+                            
+    }
+     
+    while(q.length){       //Remember we start by adding target to the queue// and mem ={"2020":0,...}
+        let pos = q.shift(); //geting first item and removing it from the queue (q)
+        if(pos =='0000'){ return mem[pos]}
+        else {
+            let next = getNextPositions(pos);
+            next.forEach(n => { //we use this to get valid "next positions" into our queue basically
+                if(mem[n]=== undefined && !deadends.includes(n)){
+                    mem[n] = mem[pos] +1; //accumulation the distance from its last position at mem[pos] 
+                    q.push(n);              //then pushing the "n"(valid next position) into our queue
+                }})
+            
+        }
+    }
+    return -1;         
+};
