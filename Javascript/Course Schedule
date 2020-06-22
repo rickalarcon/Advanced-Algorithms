@@ -1,0 +1,35 @@
+// Idea
+//we use DFS 
+// The seen Set is simply for memoization purposes.lets us memoize whether we have already checked that the course is possible to complete. 
+// The seeing Set is for the purposes of making sure that we don't return true where there is a cyclical dependency.
+function canFinish(numCourses, prerequisites) {
+  const seen = new Set();
+  const seeing = new Set();
+  const adj = [...Array(numCourses)].map(r => []);  //if numCourses is 2 then adj= [ [ ] , [ ] ]
+  
+  for (let [u, v] of prerequisites) {  //creating the adjacent list "adj" with "index as the pre-requeriments"
+    adj[v].push(u);
+  }
+  
+  for (let c = 0; c < numCourses; c++) { //check if we can finish all courses
+    if (!dfs(c)) {
+      return false;
+    }
+  }
+  return true;
+  
+  function dfs(v) { //if there are cyclic return false, then return true
+    if (seen.has(v)) return true;
+    if (seeing.has(v)) return false;// return false when where there is a cyclical dependency.
+    
+    seeing.add(v);
+    for (let nv of adj[v]) { //for pre-requisement "v", we are getting all his values(courses we can take after)
+      if (!dfs(nv)) {
+        return false;
+      }
+    }
+    seeing.delete(v); //reset so we can check the other course in the loop line 40
+    seen.add(v);      //adding course, it means v is possible to complete
+    return true;
+  }
+}
