@@ -1,0 +1,17 @@
+//    Using Dynamic Programmic
+// 12
+// 1,4,9
+// 1 + minsquares(12-1)
+//4 + minsquares(12-4) = 4 + 1 + minsquares(8-1)  //we have 2 options to move
+//                       = 4 + 4 + minsquares(8-4)
+ function numSquares(n) {
+     var  dp=[0];
+     for(var i= 1;i<=n;i++){
+       dp[i]= Infinity; 
+       for(var j= 1;j*j<=i;j++){      //j * j < i
+           dp[i] = Math.min(dp[i],dp[i-j*j]+1) // //+1 cuz we can only take 1 number to make up j*j
+     }
+         
+     }
+     return  dp[n]
+}
