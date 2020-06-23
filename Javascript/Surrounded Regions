@@ -1,0 +1,50 @@
+var solve = function(board) {
+    if(!board || board.length ==0) {return []};
+    var rows = board.length;
+    var cols = board[0].length;
+    console.log(rows,cols)
+    var borders = [];
+    //GETTING THE BORDER INDEXES
+for(var j=0;j<cols; j++){ //top
+    borders.push([0,j]);
+} 
+
+    for(var i=1;i<rows ; i++){ //left
+   borders.push([i,0]);
+} 
+ 
+for(var j=1;j<cols ; j++){ //down
+    borders.push([rows-1,j]);
+}  
+
+for(var i=1;i<rows-1 ; i++){ //right
+   borders.push([i,cols-1]);
+}  
+    console.log(borders)
+    
+    for(let [i,j] of borders){
+        if(board[i][j] == "O"){
+            dfs(i,j);
+            
+        }
+    }
+    
+//IF BORDER = 0 THEN SCAN AND REPLACE NEIGHBORS WITH E (BECAUSE THEY ALL WILL ESCAPE)
+    function dfs(i,j){
+        if(i<0 || i>=rows ||j>=cols  ||j<0) {return;} //check right boundaries only
+        else if(board[i][j] =='O'){ board[i][j] ='E';       
+                        dfs(i-1,j);
+                        dfs(i,j+1);
+                        dfs(i+1,j);
+                        dfs(i,j-1);};
+    }
+
+    //THE "O" LEFT ARE TURNS INTO "X", AND THE "E" ARE TURNED BACK TO "O"
+for(var i=0; i< rows;i++)    {
+  for(var j=0; j< cols;j++)    {
+    if(board[i][j] =='O') {board[i][j] ='X';}    
+    if(board[i][j] =='E') {board[i][j] ='O';}    
+}
+}
+ return board;          
+};
