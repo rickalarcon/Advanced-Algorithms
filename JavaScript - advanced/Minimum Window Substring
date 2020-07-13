@@ -1,0 +1,36 @@
+var minWindow = function (s, t) {
+ 
+    let min = "", left=0, right=-1;
+    let map = {};
+    
+    t.split('').forEach( e => {
+                if(map[e] == null) { map[e]=1;}
+                else{ map[e] = map[e]+1;}
+                }) // when t = "AABC" then map = {A:2, B:1,C:1}
+    
+    let count = Object.keys(map).length; // sets how many different characters in t we still have
+
+    
+    while(right< s.length){
+        // found a valid substring
+        if(count ==0){              //if this is never executed, then min will return its default value ""
+          	// try to shift left boudary to the right, this means the very left character will be removed
+			// because of this, we need to check whats the affect by removing that character, 
+            let current = s[left];
+            // if this chacter is in our map, it means we ll need to find another one in the future
+            if(map[current] != null){ map[current]++;}
+            if(map[current] >0) {count++;}
+            let temp = s.substring(left,right+1);  //substring doesnt touch right+1, but it consider before that index
+            if(min == "") { min =temp;}
+            else { min = min.length<temp.length? min:temp;}
+            left++;}
+        else {
+            right ++;
+            let current = s[right];
+            // decrease the count for this character
+            if(map[current] != null) { map[current]--;} 
+            if(map[current] == 0) {count--;} }    
+        }
+    
+    return min;
+    }
