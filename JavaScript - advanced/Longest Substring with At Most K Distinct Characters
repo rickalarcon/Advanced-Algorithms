@@ -1,0 +1,49 @@
+// idea:
+// 1) get substrings
+// 2) have to have k distinct characters
+// 3) find its length and find the longest max
+
+var lengthOfLongestSubstringKDistinct = function(s, k) {
+    var max = 0;
+    var unique = function(substr){
+         var map = {};  
+ [...substr].forEach(e => { if(map[e] == null){ map[e] =1;}
+                  else {map[e] = map[e]+1;}                             
+                             })
+        return Object.keys(map).length;
+    }
+ 
+    for( var i=0; i< s.length; i++){
+      for( var j=i; j<= s.length; j++){
+
+        var substring = s.substring(i,j);
+        if(k < unique(substring)) { break;} // if bigger # then break
+        else{
+            max = Math.max(substring.length,max);
+        }
+        
+    }}
+
+ return max   
+};
+
+
+//Solution 2: Using Sliding Window
+// Apply sliding window technique. Read more here.
+// Expand right boundary until we pass target
+// Shrink left boundary untill we are under target
+var lengthOfLongestSubstringKDistinct = function(s, k) {
+    let hash = {}, distinct = 0, max = 0;
+    let start = 0, end = 0;
+    while (end < s.length) {
+        if (hash[s[end]]==null || hash[s[end]]<=0) distinct++;
+        hash[s[end]]=hash[s[end]]+1||1;
+        end++;
+        while (distinct > k) {
+            hash[s[start]]--;   //decrease value by 1 cuz we will increase the index start
+            if (hash[s[start++]]==0) distinct--; // increase start and find next character
+        }
+        max = Math.max(max, end - start);
+    }
+    return max;
+};
