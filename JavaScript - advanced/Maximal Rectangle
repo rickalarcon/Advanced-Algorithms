@@ -1,0 +1,27 @@
+    var maximalRectangle = function (matrix) {
+    const rows = matrix.length;
+    if (rows === 0) return 0;
+    const cols = matrix[0].length;
+
+    const h = new Array(rows).fill(0); // if rows= 4 then h = [0,0,0,0]
+
+    let max = 0;
+    for (let j = 0; j < cols; j++) {
+        for (let i = 0; i < rows; i++) {
+            if (matrix[i][j] === '1') h[i]++;
+            else h[i] = 0;
+        }
+        for (let i = 0; i < rows; i++) { //for each i will be find who are consecutives and equal or less than the i height! : ) . after that we just put it in the max and iterate to see which one is bigger
+            let k1 = i - 1; //expand to the right
+            while (k1 >= 0 && h[i] <= h[k1]) k1--;//previous number have to be                                                       less or equal to the height
+            let k2 = i + 1; //expand to the left
+            while (k2 < rows && h[i] <= h[k2]) k2++;
+            max = Math.max(max, h[i] * (k2 - k1 -1)); //k2-k1-1 = # consecutive numbers
+                                    //the -1 is the cancel the - (-1) if it happen :)
+            console.log(h,h[i],k2, k1)
+
+        }
+    }
+    return max;
+}
+ 
