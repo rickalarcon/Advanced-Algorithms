@@ -1,0 +1,27 @@
+// Idea:
+// 1) create helper isPalindrome
+// 2) for each element apply a for loop to see it they have palindromes
+// 2) if they do then push indexes to the answers (note we are comparing different indexes only)
+// 3) then return the anwser
+var palindromePairs = function(words) {
+    
+    var ans = [];
+    function isPalindrome(str) {
+        for(let i=0,j=str.length-1; i<j ;i++,j--) {
+            if (str[i]!==str[j]){
+                return false;
+            }}
+        return true;
+    }
+    
+    words.forEach( (word,i) => { //for each word we scan all the words using our loop
+    for(var j =0; j < words.length; j++){ //compare word with all the others
+            if(i !==j ){ //only compare different indexs ones
+               var new_word = words[i] + words[j];
+                if( isPalindrome(new_word)){
+                    ans.push([i,j])                    
+                }
+            }
+    }}
+    )
+    return ans;
