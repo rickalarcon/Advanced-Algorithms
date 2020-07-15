@@ -1,0 +1,21 @@
+// Idea:
+// find the arr with all the numbers in it
+// Sort the arr in increase order
+// 2 options: if length is pair or impair
+// then apply median concept to get the data
+
+var findMedianSortedArrays = function(nums1, nums2) {
+    
+    var len = nums1.length + nums2.length;
+    var arr = [...nums1,...nums2];
+    var arr = arr.sort((a,b) => a-b); //increase order
+    
+    if(len % 2 == 0){ //par number
+     var index = len/2;
+     return  (arr[index-1]+arr[index])/2        
+    }
+    else {        // impair number 
+       var index = Math.floor(len/2);
+       return arr[index];     
+    }
+};
