@@ -1,0 +1,62 @@
+// Idea:
+// 1) Find Max_area from Left to end &  Max_area from right to end
+// 2) get boundingArea which is the total area
+// 3) get landArea
+// 4) then find water water using the above numbers
+
+var trap = function(height) {
+    let landArea = 0;
+    let maxFromLeft = 0;
+    let maxAreaFromLeft = 0;
+    
+    for (let h of height) {
+        landArea += h;
+        maxFromLeft = Math.max(maxFromLeft, h); //1->2->3
+        maxAreaFromLeft += maxFromLeft;  //acc area from left
+    }
+
+    let maxFromRight = 0;
+    let maxAreaFromRight = 0;
+    for (let i = height.length - 1; i >= 0; i--) {
+        maxFromRight = Math.max(maxFromRight, height[i]); //3<-2<-1
+        maxAreaFromRight += maxFromRight;
+    } 
+    const boundingArea = height.length * maxFromLeft;//total area:base*highest H
+    const leftVoid = boundingArea - maxAreaFromLeft; //first pic
+    const rightVoid = boundingArea - maxAreaFromRight; //second pic
+    const area_of_water = boundingArea - leftVoid - rightVoid - landArea;
+    return area_of_water;
+    
+};
+
+//Idea 2
+// 1) scan horizontally   
+// 2) find black, then next have to be water then black. if so 
+// 3) count as 1 unit of water 
+ // Limited: for big input, it will time out
+// var trap = function(height) {
+// var len = height.length; 
+// var max = Math.max(...height); // 3
+// var ans = 0;
+
+//     for( var i=1; i<=max ;i++){ //1,2,3
+//         var j =0;    
+//         while( j<len){
+//             if(height[j] >=i && height[j+1] <= i-1 ){
+//                 j++;
+//                var count = 0;
+//                 while(j<len){
+//                      j++;
+//                     count++;
+//                     if( height[j]>= i) {
+//                         ans = ans + count;
+//                         j--;
+//                         break;
+//                     }}
+//             }
+//             j++
+//         } 
+
+//     };
+//     return ans;
+// };
