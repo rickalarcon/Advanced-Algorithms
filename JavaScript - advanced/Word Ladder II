@@ -1,0 +1,69 @@
+//Using Dfs and Bfs
+
+//this function help us see which "*it" for instead are into our "dic"
+// it they are in "Dic" already, we
+function generatePotentials (beginWord, dict) {
+    const result = [];
+    const chars = beginWord.split('');
+    for (let i = 0 ; i < beginWord.length; i++) {
+        const char = chars[i];
+        for (let j = 0; j < 26; j++) {     //we have 26 letter in the Alphabet
+            const tempChar = String.fromCharCode(97 + j); //97 is a in UTF-16 so we go "a to Z"
+            if (tempChar === char) {continue;}
+            chars[i] = tempChar;//replacing letter so we will have
+            const newString = chars.join('');   // "ait" , "bit", "cit".... 
+            if (dict.has(newString)) {
+                result.push(newString);
+            }
+        }
+        chars[i] = char; //change letter back to normal for next iteration
+    }
+    return result;
+}
+
+var findLadders = function(beginWord, endWord, wordList) {
+    const dict = new Set(wordList); // dict will contein all elements of wordlist
+    let start = new Set();
+    dict.delete(beginWord);
+    start.add(beginWord);
+    const map = new Map();
+    const res = [];
+    
+    while (start.size > 0) {
+        if (start.has(endWord)) {
+            break;
+        }
+        const set = new Set();
+        for (const w of start) { //iterate for each element in "start"
+            const po = generatePotentials(w, dict);
+            if (po.length > 0) {
+                map.set(w, po);
+                for (const p of po) {
+                    set.add(p);
+                }
+            }
+        }
+        for (const s of set) {
+            dict.delete(s);
+        }
+        start = set;
+    }
+
+    dfs(beginWord, endWord, map, res, [beginWord]);
+    return res;
+};
+
+function dfs (beginWord, endWord, map, res, temp) {
+    if (beginWord === endWord) {
+        res.push(temp.slice());
+        return;
+    }
+
+    if (map.has(beginWord)) {
+        for (const w of map.get(beginWord)) {
+            temp.push(w);
+            dfs(w, endWord, map, res, temp);
+            temp.pop();
+        }
+    }
+}
