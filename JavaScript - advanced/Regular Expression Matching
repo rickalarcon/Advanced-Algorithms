@@ -1,0 +1,54 @@
+// dp matrix of false bools
+// dp[0][0] = true
+// initial row will be true if pattern has "*"
+// dp[i][j] => bool: s[i-1] matches p[c-1].  but if p[c] = '*', it can match 0,1, or more of preceding element aka p[c-2]
+
+// pattern letter ->
+// string |
+//        |
+//        V
+// 3 choices to determin dp[i][j]:
+// s[i-1] = p[j-1] -> true IF everything prior - dp[i-1][j-1] - is also true
+// s[i-1] != p[j-1] -> false and everything after is false
+// s[i-1] = p[j-1] where p[j-1] is '.'. if p[j-1] = '*', can match 0,1, or more -> check if p[j-2] === s[i-1] OR if p[j-2] = '.'
+//  dp[i][j] = dp[i-1][j] || dp[i][j-2]
+// otherwise '*' will be valued at 0 and dp[i][j] = dp[i][j-2]
+
+// when you get to end of p and s, you'll be at bottom right hand of dp matrix. return that
+
+
+var isMatch = function(s, p) {
+    let S = s.length
+    let P = p.length
+    let dp = new Array(S+1).fill(false).map(row => new Array(P+1).fill(false))
+    dp[0][0] = true  //ei. for "aa" and "a" : [ [ true, false ], [ false, false ], [ false, false ] ]
+    //search where is "*"
+    for (let i = 1; i <= P; i++){ //i=1,2,3..
+        if (p[i-1] === '*'){
+            dp[0][i] = dp[0][i-2] // initial row will be true if pattern has "*"
+        } 
+        else{        
+            dp[0][i] = false     //if not "*" then we make it "false"
+       }
+    }
+    //for each element in s (represented by row and row)
+    // we check the columns for each "element"(row)
+    for (let i = 1; i <= S; i++){     //like rows
+        for (let j = 1; j <= P; j++){  //like cols
+            if(p[j-1] === '*'){ //when its "*" then we check if the precedent                                       number match p[j-2]..
+                if(p[j-2] === s[i-1] || p[j-2] === '.'){
+                    dp[i][j] = dp[i-1][j] || dp[i][j-2]
+                } else {
+                    dp[i][j] = dp[i][j-2]
+                }
+            } else if (p[j-1] === s[i-1] || p[j-1] === '.'){ //if they both match or p[j-1] is "."
+                dp[i][j] = dp[i-1][j-1]
+            } else {
+                dp[i][j] = false; // do nothing but this is explicit
+            }      
+        }
+    }
+     console.log(dp, dp[S][P])
+    return dp[S][P]
+};
+
