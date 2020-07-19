@@ -1,0 +1,35 @@
+ //Using Dynamic Programming
+// from is an array of index where value is the start(j) and index is (i). This will contein all posible index words in the string "s" that are in our word diccionary
+var wordBreak = function(s, wordDict) {
+  var res = [];
+  var wordDict = new Set(wordDict);
+  var from = []; 
+  from[0] = [0]; //initialized value
+  for (var i = 1; i <= s.length; i++) {
+    from[i] = []; // from[i] is an array of indexes where it's possible to start a                     word and end at i.
+    for (var j = 0; j < i; j++) { //j is like the initial index and i is the end index..
+        // It has to be possible to start at this index!
+        // difference between substr and substring: second param of substr is new string length;           second param of substring is end index.
+      if (from[j].length && wordDict.has(s.substring(j, i))) { 
+          console.log(from[j].length,from[j])
+        from[i].push(j);
+      }
+    }}
+  build(s.length, '');
+  return res;
+    
+    function build(idx, suffix) {
+        if(idx === 0) {  // we're at the beginning of the word, so let's add the completed string to the result array
+            return res.push(suffix);
+        }
+        from[idx].forEach((startsAtIndex) => {
+            let mySubstr = s.substring(startsAtIndex, idx);
+            if(suffix === '') {
+                build(startsAtIndex, mySubstr);
+            }
+            else {
+                build(startsAtIndex, mySubstr + ' ' + suffix); // We add a space to indicate the word break
+            }    
+        })
+    }
+};
