@@ -1,0 +1,26 @@
+//Using 2 pointers
+//Video Help: https://www.youtube.com/watch?v=W2DvQcDPD9A
+var minWindow = function(S, T) {
+    let window = "";
+        var j = 0, min = 1000000;
+        for (let i = 0; i < S.length; i++) {
+            if (S[i] == T[j]) {
+                j++;
+                if (j == T.length) { //means we passed the elements in T
+                    let end = i + 1;  // location in S where we ended +1, so we can use                                             substring() later on
+                    j--;            //now we point J to the last element in T so we can start                                       iterating backwards
+                    while (j >= 0) {
+                        if (S[i] == T[j]) j--; //moving backwards
+                        i--;
+                    }
+                    j++; //now J is pointing to the first element in T
+                    i++; //now i is where we will continue our for loop next
+                    if (end - i < min) {
+                        min = end - i;
+                        window = S.substring(i, end);
+                    }
+                }
+            }
+        }
+        return window;
+    };
