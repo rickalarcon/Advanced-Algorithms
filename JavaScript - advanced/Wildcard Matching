@@ -1,0 +1,53 @@
+//Using Dymanic Programming
+//video help: https://www.youtube.com/watch?v=3ZDZ-N0EPV0&t=50s
+//Idea: we create a matrix (rows is the string, colum is the pattern)and
+// Then we have 3 cases:
+// 1) dp[i][j] = dp[i-1][j-1] IF substr[i] == pattern[j] || pattern[j] ="?"
+// 2) dp[i][j] = dp[i-1][j] || dp[i][j-1] IF dp[j] = "*" 
+// 3) FALSE
+ var isMatch = function(s, p) {
+     if (s == null || p == null) {
+         return false;
+     }
+     let lens = s.length + 1, lenp = p.length + 1;
+     // use Array(n) to create array with size n
+     // use Array.fill(v) to fill it with values and make it iterable
+     // NOTE: if the value passed to Array.fill is a object, it won't get copied
+     // but only its reference get copied
+     let dp = Array(lens).fill(null).map(c => Array(lenp).fill(false)); //this is our matrix
+     
+     // start the nested for-loop
+     for (let i = 0; i < lens; i++) {
+         for (let j = 0; j < lenp; j++) {
+             if (i === 0 && j === 0) {
+                 dp[i][j] = true; //always start with true at 0,0
+                 continue;
+             }
+             if (j === 0) {
+                 dp[i][j] = false;
+                 continue;
+             }
+             // case: if current char of s and p are the same or if current char
+             // of p is the '?'
+             if (p[j-1] !== '*') { //j-1 cuz we added +1 in our matrix so we are factor it in
+                 if (i > 0 && (s[i-1] === p[j-1] || p[j-1] === '?')) {
+                     dp[i][j] = dp[i-1][j-1];
+                 }
+             }
+             // case when current char of p is '*'
+             else {
+                 // for case '*' match 0 character of s
+                 dp[i][j] |= dp[i][j-1];
+                 // for case '*' match 1 or n characters
+                 if (i > 0) { dp[i][j] |= dp[i-1][j];
+                 }
+                 // convert back to boolean
+                 dp[i][j] = !!dp[i][j];
+             }
+         }
+     }
+     return dp[lens-1][lenp-1];
+ };
+// Complexity:
+// Time: O(nm) where n is the length of string s and m is the length of string p
+// Space: O(nm), as I am using a 2D array of size n * m to cache the steps
