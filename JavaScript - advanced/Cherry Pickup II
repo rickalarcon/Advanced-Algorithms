@@ -1,0 +1,37 @@
+// Idea
+// This is dp solution. At each step, we move both robot1 and robot2 to next row, and with all possibles columns (j-1, j, j+1). Please keep in mind that if 2 robots go the same cell, we only collect cherries once.
+
+// Complexity
+
+// Time: O(9 * m * n^2), where m is number of rows, n is number of cols of grid.
+// Space: O(m * n^2)
+var cherryPickup = function(grid) {
+    const m = grid.length;     //rows
+    const n = grid[0].length;  //cols
+    let dp = Array(m).fill(null).map(() => Array(n).fill(null).map(() => Array(n).fill(0))); 
+    return  dfs(0, 0, n-1); //initicial positions for the 2 robots are: (0,0) & (0,n-1)
+    
+    function dfs(row, pos1, pos2) {
+        if (row === m) { return 0; } //reach to bottom row
+        else if (dp[row][pos1][pos2]) { return dp[row][pos1][pos2];}
+        else {
+            let ans = 0;
+            //we will have 9 possibilities/combination on how we are position our robots row by                 row to for that reason we have 2 for loops:
+            for (let i = -1; i <= 1; i++) {     // i => -1,0,1
+                for (let j = -1; j <= 1; j++) { // j => -1,0,1
+                    //at the specific row, we are checking which colmns are will go
+                    let nextPos1 = pos1 + i;
+                    let nextPos2 = pos2 + j;
+                    //checking boundaries, (they have to be within col numbers)
+                    if (nextPos1 >= 0 && nextPos2 >= 0 && nextPos1 < n && nextPos2 < n) { 
+                        ans = Math.max(ans, dfs(row+1, nextPos1, nextPos2)) //move next row and                                                                                 find max
+                    }
+                }
+            }
+            //If they are in the same position, then only count one of them
+            const cherries = pos1 === pos2 ? grid[row][pos1] : grid[row][pos1] + grid[row][pos2];
+            dp[row][pos1][pos2] = ans + cherries;
+            return dp[row][pos1][pos2] ;
+        }
+    }
+}
