@@ -1,0 +1,23 @@
+//Using stack
+//idea:
+var longestValidParentheses = function(s) {
+let stack = [];
+    let max = 0;
+    stack.push(-1);
+     for (let i = 0; i < s.length; i++) {
+            if (s[i] == "(" ) { //For every ‘(’ encountered, we push its index onto the stack.
+                stack.push(i);  //push index so we will be accounting
+            } else {
+                stack.pop();
+// If while popping the element, the stack becomes empty, we push the current element's index onto the stack. In this way, we keep on calculating the lengths of the valid substrings, and return the length of the longest valid string at the end.
+                if (stack.length == 0) {
+                    stack.push(i);
+                } else {
+                    // ei.length = 1-(-1)
+                    // ei. length = 6-4 =2 .. etc
+                    max = Math.max(max, i - stack[stack.length-1]);
+                }
+            }
+        }
+        return max;
+    }
