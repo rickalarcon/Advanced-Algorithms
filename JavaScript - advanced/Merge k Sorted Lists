@@ -1,0 +1,27 @@
+// Idea:
+// 1) we push all the values into a array and sort it in increasing order
+// 2) then we push those values into a new ListNode 
+// 3) return the res.next
+var mergeKLists = function(lists) {
+    if(!lists || !lists.length) return null;
+    let arr = [];
+    let res = new ListNode(-1);
+    
+    lists.forEach(list => {
+        let cur = list;
+        while(cur) {
+            arr.push(cur.val); //pushing all values into the array
+            cur = cur.next;
+        }
+    });
+    
+    let cur = res; //cur will be like a pivot that will be adding to "res"
+    //Here we order our "arr" in increasing order 
+    arr.sort((a,b) => a - b)
+        .forEach(n => {
+        let temp = new ListNode(n);
+        cur.next = temp;  // add next to cur
+        cur = cur.next; //after that update cur to the next one, so the res will                             be updated everytime :)
+    });
+    return res.next;
+};
