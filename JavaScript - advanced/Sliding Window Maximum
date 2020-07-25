@@ -1,0 +1,39 @@
+var maxSlidingWindow = function(nums, k) {
+  
+    var max = -100000 ;
+    var arr = [];
+    var i =0;
+    while(i<=nums.length-k){
+        var slice = nums.slice(i,i+k);
+        //we add acc initial value as max then we find the max all all elements
+       var new2 = slice.reduce((acc,e) => Math.max(acc,e), max)
+        max = Math.max(new2, max);
+        arr.push(max);
+        max =-100000; //reset max after pushing it into arr
+        i++
+    }
+return arr;
+    
+};
+//Solution 2:
+// The Idea
+// Use decreasing monotonic queue. Read more here.
+// Add the greatest number from queue every iteration
+// Remove the greatest number from queue if it's a value belongs to the left-most boundary
+var maxSlidingWindow = function(nums, k) {
+    if (nums.length==0) return [];
+    let queue = [], output = [];
+    for (let i=0;i<nums.length;i++) {
+        while (queue[queue.length-1] < nums[i]) queue.pop();
+        queue.push(nums[i]);
+
+        let cur = i + 1 - k; // left window position
+
+        if (cur >= 0) { // passing initial window
+            output.push(queue[0]);
+            if (nums[cur]===queue[0]) queue.shift(); // eliminate the greatest num if it's the left-most window
+        }
+        
+    }
+    return output;
+};
