@@ -1,0 +1,67 @@
+// Idea:
+// create a Array to push values, then sort them
+// After that we can find the median, it will have 2 cases
+var MedianFinder = function() {
+    this.arr = [];
+};
+
+/** 
+ * @param {number} num
+ * @return {void}
+ */
+MedianFinder.prototype.addNum = function(num) {
+    this.arr.push(num);
+    this.arr.sort((a,b) => a-b);
+};
+
+/**
+ * @return {number}
+ */
+MedianFinder.prototype.findMedian = function() {
+    
+    if( this.arr.length % 2 == 0){ //par
+        var index = (this.arr.length/2) - 1 ;
+        var median = (this.arr[index] + this.arr[index+1])/2 ;
+       return median;
+    }
+    else { //impair
+        var index = Math.floor(this.arr.length/2)
+               return this.arr[index ];
+
+    }
+    
+};
+/////////////////////////////////////////
+//Solution 2: Binary Search - Min Heap //
+/////////////////////////////////////////
+var MedianFinder = function() {
+    this.arr = [];
+};
+
+/** 
+ * @param {number} num
+ * @return {void}
+ */
+MedianFinder.prototype.addNum = function(num) {
+    const bs = n => {
+        let start = 0;
+        let end = this.arr.length;
+        while (start < end){
+            let mid = Math.floor((start+end)/2);
+            //if the next n that is been inserted in greated than the "mid", then               start = mid+1
+            if (n > this.arr[mid]) start = mid+1; 
+            else end = mid;
+        }
+        this.arr.splice(start,0,n); //spliace(index,howmany,item_to_insert)
+    }
+    if (this.arr.length === 0) this.arr.push(num);
+    else bs(num);
+};
+
+/**
+ * @return {number}
+ */
+MedianFinder.prototype.findMedian = function() {
+    const mid = Math.floor(this.arr.length/2);
+    return (this.arr.length%2===0) ? (this.arr[mid-1]+this.arr[mid])/2 : this.arr[mid];
+};
