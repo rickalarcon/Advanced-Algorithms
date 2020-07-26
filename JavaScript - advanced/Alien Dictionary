@@ -1,0 +1,54 @@
+/*
+The Idea
+Build a graph on the order of characters (compare vertically)
+Run a topological sort on the graph
+Return "" if cycle is found
+Regarding #1, idk why very few has talked about this and it's actually the most important key to solve this problem, is that the only character order that we can ever make sure of is the first pair of characters. For example:
+"ab"
+"adc"
+The only charcter order we can make sure of is b is infront of d. So the answer for this can be anything as long as b is infront of b. Including bacd, abcd, abdc, cbda etc.
+*/
+/**
+ * @param {string[]} words
+ * @return {string}
+ */
+var alienOrder = function(words) {
+    let graph = {};
+    words.forEach((word)=>{word.split('').forEach((char)=>graph[char]=[])}); // initialize graph entry for every character
+console.log(words,words.length,words.length-1)
+    // build the relationship graph
+    for (let i=0;i<words.length-1;i++) { //scan vertically
+        let top = words[i];
+        let down = words[i+1];
+        let minLength = Math.min(top.length, down.length);
+        if(top.length > down.length && top.startsWith(down)) return ""; //validation 
+        for (let j=0;j<minLength;j++) {
+            if (top[j]!=down[j]) {
+                graph[top[j]].push(down[j]);
+                break; // only need to find the first pair
+            }
+        }
+    }
+    let visiting = new Set(), 
+        visited = new Set(), //to find if there is cycle , if any
+        result = [];
+	// regular graph dfs
+    var dfs = function(char) {
+        if (visiting.has(char)) return false;
+        if (visited.has(char)) return true;
+        visiting.add(char);              //adding  in visiting
+        for (let n of graph[char]) {     //analyzing all values for our "char" in the grapth
+            if (!dfs(n)) return false;
+        }
+        visiting.delete(char);          //deleting "char" in visiting
+        visited.add(char);
+        result.push(char);
+        return true;
+    }
+
+    for ([key, val] of Object.entries(graph)) {
+        if (!dfs(key)) return "";
+    }
+    console.log(result)
+    return result.reverse().join(''); //we use "reserve" cuz dfs push last/deep chars first to go all                                           the way up to the first one 
+};
