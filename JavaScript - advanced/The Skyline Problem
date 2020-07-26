@@ -1,0 +1,37 @@
+/*
+Basic Idea
+Treat all left, right positions as the candidate x-poisitons;
+For each candidate x-position, find out it's y-position by search for the highest height on top of that position;
+Determine if it's necessary to record the position by comparing the height with the previous height.
+*/
+var getSkyline = function(buildings) {
+    // store all candidate x-positions
+    let cp = new Set();
+    for(let [l,r,h] of buildings){
+        cp.add(l);
+        cp.add(r);
+    }
+    let cp1 = [...cp];
+    cp1.sort((a,b)=>a-b); 
+    
+    // find the height for every candidate x-position
+    let n = buildings.length;
+    let res = [[-1,0]];
+    for(let p of cp1){
+        let i = 0;
+        let height = 0;
+        //search for the highest height on top of that position
+        //we think p as the right side here:buildings[i][0]<=p
+        while(i<n && buildings[i][0]<=p){
+            if(buildings[i][1]>p){ //finding the height for position i
+                height = Math.max(height, buildings[i][2]);
+            }
+            i++;
+        }
+// Determine if it's necessary to record the position by comparing the height with the previous height.
+        if(res[res.length-1][1] === height) continue; 
+        res.push([p, height]);
+    }
+    
+    return res.slice(1);
+};
