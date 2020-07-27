@@ -1,0 +1,93 @@
+/*
+Idea:
+1) create an object this.files ={}
+2) get list of directories ls
+3) Then some standard code is used like:
+    let arr = path.split("/");
+    let obj = this.files;
+    for(let i = 1; i < arr.length; i++){......}
+    */
+
+
+var FileSystem = function() {
+    this.files = {};
+};
+
+/** 
+ * @param {string} path
+ * @return {string[]}
+ */
+FileSystem.prototype.ls = function(path) { //return the list
+    let arr = path.split("/"); // ei. ["", "a","b"]
+    let obj = this.files; //obj will 
+    let curr = "";
+    for(let i = 1; i < arr.length; i++){ // go to each element in arr
+        if(arr[i] !== "") 
+        {    
+            obj = obj[arr[i]]; //updating obj, so obj = values of his last/delete key..
+            curr = arr[i];
+        }
+    }
+    let list = Object.keys(obj||{}).filter(x => x !== "content");
+    if(obj.content !== undefined){
+        list.push(curr);
+    }
+    return list.sort();
+};
+
+/** 
+ * @param {string} path
+ * @return {void}
+ */
+FileSystem.prototype.mkdir = function(path) {
+    let arr = path.split("/");
+    let obj = this.files;
+    for(let i = 1; i < arr.length; i++){
+        if(obj[arr[i]]===undefined){
+            obj[arr[i]] = {};
+        }
+        obj = obj[arr[i]];
+    }
+};
+
+/** 
+ * @param {string} filePath 
+ * @param {string} content
+ * @return {void}
+ */
+FileSystem.prototype.addContentToFile = function(filePath, content) {
+    let arr = filePath.split("/");
+    let obj = this.files;
+    for(let i = 1; i < arr.length; i++){
+        if(obj[arr[i]]===undefined){
+            obj[arr[i]] = {};
+        }
+        obj = obj[arr[i]];
+    }
+    if(obj.content === undefined){
+        obj.content = [content];
+    } else {
+        obj.content.push(content);
+    }
+};
+/** 
+ * @param {string} filePath
+ * @return {string}
+ */
+FileSystem.prototype.readContentFromFile = function(filePath) {
+    let arr = filePath.split("/");
+    let obj = this.files;
+    for(let i = 1; i < arr.length; i++){
+        obj = obj[arr[i]];
+    }
+    return obj.content.join("");
+};
+
+/** 
+ * Your FileSystem object will be instantiated and called as such:
+ * var obj = new FileSystem()
+ * var param_1 = obj.ls(path)
+ * obj.mkdir(path)
+ * obj.addContentToFile(filePath,content)
+ * var param_4 = obj.readContentFromFile(filePath)  */
+
