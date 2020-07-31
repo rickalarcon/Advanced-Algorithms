@@ -1,0 +1,15 @@
+Idea
+We use grapth, like adjacency list and look if a key have duplicates values, if it do , then we return "false"
+var canConvert = function(str1, str2) {
+    if (str1 === str2) return true
+    let map = new Map()
+    for (let i = 0; i < str1.length; i++) {
+        //checking that chart has only 1 unique value
+        if (map.has(str1[i]) && map.get(str1[i]) !== str2[i]) {
+            return false
+        }
+        map.set(str1[i], str2[i]) 
+    }
+    let set = new Set(map.values()) //counting only unique values
+    return set.size < 26
+};
