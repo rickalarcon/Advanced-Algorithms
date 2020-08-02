@@ -1,0 +1,36 @@
+Four steps:
+1) let max = sum(nums)
+2) let min = Math.max(...nums)
+3) "binary search (min, max)", to find out the smallest number that can divide nums into m parts and every part's sum is less or equal to "this smallest number";
+4) define the function to verify: if to divide the array into m parts and every part's sum is not larger than target is possible;
+"verify(nums, m, target)" return false in two kinds of situations:
+    - after divide nums into m groups and make sure the sum of each group is no larger    than target, there are still elements left;
+
+    - nums.length < m
+*/
+var splitArray = function(nums, m) {
+    let max = nums.reduce((a,b)=>a+b,0);
+    let min = Math.max(...nums);
+    
+    function verify(array, m, target){
+    	let len = array.length;
+    	if(len<m) return false;
+    	let count=1, i=0, sum=0;  //pay attention: count=1
+    	for(let i=0; i<len; i++){
+    		sum += array[i];
+    		if(sum>target){
+    			sum = array[i];
+    			count++;
+    			if(count>m) return false;
+    		}
+    	}
+    	return true;
+    }
+
+    while(min<=max){
+    	let mid = Math.floor((min+max)/2);
+    	if(verify(nums, m, mid)) { max=mid-1;}
+    	else {min=mid+1;}
+    }
+    return min;
+};
