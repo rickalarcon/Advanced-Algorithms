@@ -1,0 +1,39 @@
+// The Idea - Binary Search
+// Iterate the array from last to first, count the number of elements that is smaller than current
+// Use "binary insertion sort" insert the current number, the index equals to how many numbers are smaller up to the current index (because it's sorted)
+
+var countSmaller = function(nums) {
+    let sorted = [], result = [];
+    for (let i=nums.length-1;i>=0;i--) {   //starting from last element to first
+        let left = 0, right = sorted.length; //every iteration we reset left and right
+        while(left < right) {
+            let mid = left + Math.floor((right-left)/2);
+            if (nums[i] > sorted[mid]) { 
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+//we keep going from right to left and keep 
+        result.unshift(left); //add "left" as first element in "result"
+        sorted.splice(left, 0, nums[i]); //(index,howmany,item), add element by element so it                                                ended up sorting nums is asc order
+    }
+    return result;
+}
+
+//Easy approach
+/*
+var countSmaller = function(nums) {
+    let newNums = [...nums];
+    newNums.sort(function(i1, i2){return i1 - i2});
+    
+    let res = [];
+    for(let i = 0; i < nums.length; ++i){
+        let seq = newNums.indexOf(nums[i]);
+        res.push(seq);
+        newNums.splice(seq, 1);
+    }
+    
+    return res;
+};
+*/
