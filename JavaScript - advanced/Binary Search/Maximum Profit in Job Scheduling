@@ -1,0 +1,35 @@
+/*
+Using DP
+Idea
+1) Built a jobs array that represent the 3 data points and sort it based on its endTime
+2) Define the "memo" which we will used to accumulate the max profits
+3) Iterate over with jobs element and push acc into memo as we go
+4) the findLatest is used to get "j" value which is the index where the latest "endTime"is <=
+    our current startTime
+*/
+var jobScheduling = function(startTime, endTime, profit) {
+    let jobs = new Array(startTime.length);
+        // combine every input into a single Job class 
+    for(let i=0;i<jobs.length; i++){jobs[i] = [startTime[i], endTime[i], profit[i]];}
+    jobs.sort((a,b) => {return a[1]-b[1];}); //sort in asc order based on their endTime
+    console.log(jobs)
+    let memo = new Array(jobs.length); 
+    memo[0] = jobs[0][2];              //memo[0] is the first element's profit
+    for(i=1;i<jobs.length; i++){
+        var currPrice = jobs[i][2];
+        var j = findLatest(jobs, i);
+        if(j>-1) currPrice += memo[j];
+        // store maximum of including and excluding
+        memo[i] = Math.max(currPrice,memo[i-1]); //memo[i-1] is the previos Max profit
+    }
+    return memo[jobs.length-1]; //last element in memo
+};
+var findLatest = function (job, i){ //find latest "endtime" interval that is <= our current startTime
+    let j=i-1;
+    while(j>=0){
+        if(job[j][1]<=job[i][0]) //prev's endTime <= curr's startTime
+            return j;
+        j--;
+    }
+    return -1;
+}
