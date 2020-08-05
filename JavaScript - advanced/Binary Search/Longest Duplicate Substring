@@ -1,0 +1,58 @@
+// Using Binary Search with Rabin-Karp Algorithm for string pattern recognizition and exact matching
+var longestDupSubstring = function(S) {
+    
+    let lo = 0, hi = S.length, q = 2 ** 32	
+    let ans = ""
+    
+    while((lo + 1) < hi){
+        let mid = Math.floor((lo + hi) / 2)
+        let [isFound, patternRepeated] = rabinKarp(S, mid, q)
+        if(isFound){
+            lo = mid
+            ans = patternRepeated
+        }
+        else{
+            hi = mid
+        }
+    }
+    return ans
+};
+
+const rabinKarp = (text, m, q) => {
+    // m is length of the duplicate string  to search for
+    if(m === 0) return [false, ""]
+    let n = text.length
+    let t = 0        // hash value for text window
+    let d = 26      // d is the number of characters in the input alphabet 
+    
+    let h = 1       // h is used to remove first char value in the text window hash (t)
+    // value for h is d^(m-1) % q    
+    for(let i = 0; i < m - 1; i++){
+        h = (h * d) % q
+    }
+    
+    // Calculate the hash value of the first window of text
+    for(let i = 0; i < m; i++){
+        t = (d*t + (text.charCodeAt(i) - 'a'.charCodeAt(0)) ) % q
+    }
+    
+	// Store text window hash in map with its starting index
+    let map = {}
+    map[t] = 0
+    
+	// sliding window to find duplicate string
+    for(let i = 0; i <= n - m; i++){
+        t = (d * (t - ((text.charCodeAt(i) - 'a'.charCodeAt(0)) * h))
+             + (text.charCodeAt(i + m) - 'a'.charCodeAt(0))) % q
+        if(map.hasOwnProperty(t)){
+            return [true, text.substring(i+1, i+m+1)]
+        }
+        map[t] = i + 1
+    }
+    return [false, ""]
+    
+}
+
+
+
+
