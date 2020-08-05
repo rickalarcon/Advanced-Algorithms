@@ -1,0 +1,42 @@
+/*
+Solution mirror the exact steps in:
+https://www.youtube.com/watch?v=yCQN096CwWM&feature=emb_title
+IDEA: (using Kadane's algorithm)
+1) Imagine we create a vertical array(which length is the # of rows in our matrix)
+2) We use concept of two pointers to go from LEFT to right (L and R start at 0 index) then we start moving R till the end, after it reaches the end we start again but know our L and R will start from 1 index.
+note: L and R represent our columns
+3) While doing the iteration above, we do a horizontal SUM and put it into our vertical array (if we can 3 rows we will sum each of them and put it into the array we created as pivot).
+4) After that we have to calculate the Max sum in our array, if the current is greater then our MAXsum already found, we replace that max sum with our new current. When we do that we will record also the L,R
+maxUp and maxDown of the array
+5) Once the algorithm is done we return the MAX_SUM already found
+*/
+ function maxSumSubmatrix(matrix, k) {
+     const row = matrix.length, col = matrix[0].length;
+     let result = -Infinity;
+     for (let i = 0; i < col; i++) {
+         let rowSum = Array(row).fill(0);
+         for (let j = i; j < col; j++) {
+             let sum = 0, max = -Infinity;
+             for (let r = 0; r < row; r++) {
+                 rowSum[r] += matrix[r][j];
+                 if (sum < 0) {sum = 0;}
+                 sum += rowSum[r];
+                 max = Math.max(max, sum)
+             }
+             if (max <= k) result = Math.max(result, max)
+             else {
+                 max = -Infinity;
+                 for (let m = 0; m < row; m++) {
+                     sum = 0;
+                     for (let n = m; n < row; n++) {
+                         sum += rowSum[n];
+                         if (sum <= k){ max = Math.max(max, sum)}
+                     }
+                 }
+                 result = Math.max(result, max)
+             }
+             if (result === k) return k;
+         }
+     }
+     return result;
+ }
