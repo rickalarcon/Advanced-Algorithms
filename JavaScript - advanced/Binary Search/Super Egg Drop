@@ -1,0 +1,20 @@
+/*
+Idea:
+1) every time we start while() again , we go from last floor to first floor in our "last" array 
+2)every loop will check our "last"array, an it will be start accumulating from last element to 1, when we get out of the loop and start a while loop again and then a for loop(this for loop will again accumulate add from
+last element in "last" to elemenet in index 1)
+*/
+const superEggDrop = function (maxEggs, maxFloors) {
+    const last = new Array(maxEggs + 1).fill(0) //last is our DP array
+    let steps = 0
+    while (last[maxEggs] < maxFloors) {// check last element in last < maxFloors
+        steps++
+        for (let eggs = maxEggs; eggs > 0; eggs--) { //eegs is decreasing
+            //2 options, an eeg can break or not in that floor
+            //if it breaks then all the above that floor breaks, so we need to                 analize the floors below it with our eggs that we can left
+            last[eggs] = 1 + last[eggs] + last[eggs - 1]
+        }
+    }
+
+    return steps
+}
