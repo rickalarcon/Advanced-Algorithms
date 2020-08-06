@@ -1,4 +1,5 @@
 /*
+following similar steps that: https://www.youtube.com/watch?v=3hcaVyX00_4
 Idea:
 1) every time we start while() again , we go from last floor to first floor in our "last" array 
 2)every loop will check our "last"array, an it will be start accumulating from last element to 1, when we get out of the loop and start a while loop again and then a for loop(this for loop will again accumulate add from
