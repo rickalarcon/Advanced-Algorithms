@@ -1,0 +1,26 @@
+//Intuitions
+ var twoCitySchedCost = function(costs) {
+   var n = costs.length/2;
+     var sum = 0;
+     //ordering in ascending order, aft
+     costs.sort( (a,b) => {return a[0]-b[0] - (a[1]-b[1]) }) // sort by A[i][0] - A[i][1]
+     
+    for(var i=0 ; i<n;i++){
+        sum += costs[i][0] +costs[i+n][1]
+    }
+     return sum;
+}
+
+
+/*
+Synopsis:
+
+Greedy algorithm. Sort by "the cost to city A" minus "the cost to city B", then accumulate the minimum sum of costs by cherry picking "the cost to city A" from the first half of the sorted array and cherry picking "the cost to city B" from the second half of the sorted array.
+
+Javascript
+
+let twoCitySchedCost = A => 
+    A.sort(([a1, b1], [a2, b2]) => (a1 - b1) - (a2 - b2))              // sort by A[i][0] - A[i][1]
+     .reduce((sum, [a, b], i) => sum + (i < A.length / 2 ? a : b), 0); // cherry pick first/second half
+
+*/
