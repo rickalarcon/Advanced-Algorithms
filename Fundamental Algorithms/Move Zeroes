@@ -1,0 +1,12 @@
+var moveZeroes = function(nums) {
+  
+  var idx = 0;
+  for (var i = 0; i < nums.length; i++) {
+    if (nums[i] !== 0) { //the first element diferent of zero will have index                            0
+      nums[idx] = nums[i];
+      nums[i] = idx === i ? nums[i] : 0; //if different index when transform                                            it to zero
+      idx++;
+    }
+  }
+
+}
