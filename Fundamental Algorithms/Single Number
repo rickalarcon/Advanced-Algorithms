@@ -1,0 +1,19 @@
+var singleNumber = function(nums) {
+  
+    var hash ={};
+    for(let num of nums){
+        if(!hash[num]){ hash[num]=1; }
+        else {hash[num] += 1;}
+    }
+    
+    for(let key in hash){
+        if(hash[key] == 1){return key}
+    }
+
+};
+
+//using bitwise operator
+
+function singleNumber(nums) {
+	return nums.reduce((prev, curr) => prev ^ curr, 0);
+}
