@@ -1,0 +1,14 @@
+var firstUniqChar = function(s) {
+    
+    // find first not repeating char
+    //get its index 
+    var hash = {};
+    for(let char of s){
+        if(!hash[char]){ hash[char]= 1;}
+        else { hash[char] += 1;}}
+    
+    for(let key in hash){
+    if(hash[key] ==1){return s.indexOf(key)} //find the first key that doesnt repeat and return its                                                    index. note: indexOf() always scan from left to right :)
+    }    
+    return -1;
+};
