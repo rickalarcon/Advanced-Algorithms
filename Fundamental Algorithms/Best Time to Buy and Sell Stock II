@@ -1,0 +1,24 @@
+var maxProfit = function (prices) {
+    let profit = 0;
+
+    for (let i = 1; i < prices.length; i++) {
+        let prev = prices[i - 1];
+        let current = prices[i];
+
+        if (prev < current) {
+            profit += current - prev;
+        }
+    }
+    
+    return profit;
+};
+
+// note:
+// .reduce(profit,price,i,prices) == .reduce(acc,e,index,array)
+// we start with profit =0 thats why we have that 0 at the end of the reduce function
+
+// var maxProfit = function(prices) {
+//     // sell immediately when it's profitable
+//     return prices.reduce((profit, price, i, prices) => 
+//         i > 0 && price > prices[i-1] ? profit + price - prices[i-1] : profit, 0);
+// };
