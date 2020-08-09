@@ -1,0 +1,13 @@
+var removeDuplicates = function(nums) {
+if(nums.length ==0) { return 0;}
+    
+   var i = 0;
+   for(var j=1 ; j<nums.length ;j++){ //nums is sorted so its helpful
+       
+       if(nums[j] !== nums[i]){
+           i++;
+           nums[i] =nums[j] //updating so we can compare if current number are                                      duplicated later then iteration again
+       }       
+   }
+    return i+1; //+1 so we count the first element as well
+};
