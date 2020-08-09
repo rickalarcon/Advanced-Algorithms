@@ -1,0 +1,10 @@
+var pivotIndex = function(nums) {
+    let sum = nums.reduce((a,b)=>a+b, 0); //total sum
+    let sumL = 0;                         //left sum inizialized
+    let len =nums.length;
+    for(let i=0; i<len; i++){
+    	if(sumL === (sum-nums[i])/2) return i; //we dont count the nums[i] thats why   we sustract it
+    	sumL += nums[i]; // while advancing we acc sum to the left
+    }
+    return -1;
+};
