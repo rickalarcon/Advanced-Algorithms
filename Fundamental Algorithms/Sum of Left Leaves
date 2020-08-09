@@ -1,0 +1,16 @@
+var sumOfLeftLeaves = function(root) {
+    
+    //find LEFT leaves and sum its value
+    var sum = 0;    
+    var dfs = function(node){ 
+        if(!node){return;}
+        if(node.left){ //if node is left
+            //if its left children is a leave , then add children val to our sum
+            if(!node.left.left && !node.left.right){ sum = sum + node.left.val} }          
+        dfs(node.left);
+        dfs(node.right);   
+    }
+
+  dfs(root)
+  return sum        
+};
