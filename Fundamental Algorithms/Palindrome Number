@@ -1,0 +1,18 @@
+//First Solution
+var isPalindrome = function(x) {
+  // convert integer to string so we can use string functions
+    var x = x.toString();
+    var len = x.toString().length;
+    for( var i = len-1,j=0 ; i>=0 ;i--,j++){
+        if(x[i] !== x[j]) {return false;}
+    }
+        
+    return true;
+};
+
+//Second Solution
+var isPalindrome = function(x) {
+  x = x.toString();
+  var a =  x.split("").reverse().join("")
+  return a==x? true:false
+};
