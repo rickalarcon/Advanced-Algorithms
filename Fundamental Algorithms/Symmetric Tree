@@ -1,0 +1,12 @@
+var isSymmetric = function(root) {
+    
+    if(!root){return true;} //sanity check
+    
+    var is_mirror = function(s,t){  
+        if(!s && !t){return true;} //both are null,ok
+        if(!s || !t || s.val !==t.val){ return false;} //found a mismatch
+        return is_mirror(s.left,t.right) && is_mirror(s.right,t.left); //true if both are symmetric
+        }
+    
+    return is_mirror(root.left,root.right);
+};
