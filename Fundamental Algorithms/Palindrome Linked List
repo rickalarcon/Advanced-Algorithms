@@ -1,0 +1,18 @@
+var isPalindrome = function(head) {
+    
+   // var arr =[]
+    
+    var dfs = function(node,arr){ //putting Linked list into array
+        if(!node){return;}
+        arr.push(node.val);
+        dfs(node.next,arr);
+    } 
+    dfs(head, arr=[]);
+
+    for(var i=0 ; i<arr.length/2;i++){ //using two pointers
+        var j = arr.length-1-i;
+        if(arr[i] !==arr[j]){return false}
+    }
+    return true
+    
+};
