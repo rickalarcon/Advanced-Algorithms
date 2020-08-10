@@ -1,0 +1,18 @@
+/*
+The idea
+Preorder DFS
+note: when we start the dfs to sustract the head from the sum so we can go scan
+this subtrees later on
+*/
+var hasPathSum = function(root, sum) {
+    
+    var dfs = function(node,sum){
+    if (!node) return false;
+        //if we reach leave return true if 0 == 0
+    if (!node.left && !node.right) return sum-node.val==0; 
+        //start dfs for left and right substrees
+    return dfs(node.left, sum-node.val) || dfs(node.right, sum-node.val);    
+    }
+  
+    return dfs(root,sum);    
+};
