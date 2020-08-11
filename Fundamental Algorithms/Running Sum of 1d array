@@ -1,0 +1,12 @@
+var runningSum = function(nums) {
+    let len = nums.length;
+    let ans = [];
+    let i =0;
+    let sum =0;
+    while(i<len){
+        sum += nums[i]; //accumulating sum
+       ans.push(sum)
+        i++;
+    }
+    return ans;
+};
