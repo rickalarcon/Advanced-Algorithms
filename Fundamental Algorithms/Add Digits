@@ -1,0 +1,8 @@
+var addDigits = function(num) {
+
+   var sum = [...num.toString()].reduce((acc,e)=> acc+ Number(e),0);
+    if(sum.toString().length ==1){ return sum;}
+    else{ var ans = addDigits(sum) }
+    return ans;
+    
+};
