@@ -1,0 +1,12 @@
+var canWinNim = function(n) {
+    
+   if(n===1 || n===2 || n===3){
+    return true;
+  } else if( n%4 === 0){ //opponent will be able to match it and I will end up having to choise within the last 4 stones left, which will cause me to lose the game
+    return false;
+  } else{
+    return true;
+  }
+    
+};
+
