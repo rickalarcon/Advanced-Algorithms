@@ -1,0 +1,53 @@
+Question 3:
+
+Given an array of integers a, the task was to count the # of pairs i, j , such that a[i] and a[j] are digit anagrams.
+
+In the given time frame, this is what i wrote. Kindly excuse me for the brute force technique. Thank you. 
+*/
+
+var a = [2,12,312,213] 
+
+var anagram = function(integer1,integer2){
+  //first way
+ let a = integer1.toString().split("").sort().join("")
+ let b = integer2.toString().split("").sort().join("")
+  // console.log(a,b);
+
+ if(a.length !== b.length){ return false}
+
+  return a == b
+  
+  //second way
+//   if( a.length !== b.length){ return false}
+  
+//   else{
+//     for(let e of b){
+//       if(!a.includes(e)) {return false}
+//       else{ 
+//        var index = a.indexOf(e) ;
+//         a.splice(index,1)
+//       }  
+//     }
+    
+//    return true; 
+//   }
+  
+    }
+
+var count_anagrams = function(arr){
+  var count =0;
+  for(var i=0; i<arr.length-1 ; i++){
+      for(var j=i+1; j<arr.length ; j++){
+        
+        
+    if( anagram(arr[i],arr[j])){
+      count++;
+    }
+        
+  }}
+console.log(count)
+}
+
+count_anagrams(a);
+
+
