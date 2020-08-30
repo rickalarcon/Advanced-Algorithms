@@ -1,0 +1,23 @@
+/*
+Idea
+1) use while loop to scan left right, if they are not equal then go to next logic
+2) create a helper is_palindrome
+3) cases:
+if the while scanned all elements succefully then we will get i>= j is TRUE cuz we stop at i<j
+then we have 2 cases where in 1 , we delete j (right element)
+, and other where we delete i (left element)
+*/
+//Javascript:
+
+let validPalindrome = S => {
+    let len = S.length, 
+        i = 0, 
+        j = len - 1;
+    
+    while (i < j && S[i] == S[j]) {++i, --j;} //while they are equal letters, keep scanning
+    
+    let is_palindrome = subtr => { return subtr == subtr.split('').reverse().join('');}
+    
+    //with all || deleting j (we dont touch j) || deleting i ( we dont touch i) 
+    return i >= j || is_palindrome(S.substring(i, j)) || is_palindrome(S.substring(i + 1, j + 1));  // with all, without j, without i
+};
