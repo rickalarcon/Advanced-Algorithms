@@ -1,0 +1,8 @@
+var addBinary = function(a, b) {
+    
+    //0b mean it will be binary
+    //we can also say: BigInt( "0b"+ a)...
+  var sum = BigInt(`0b${a}`) + BigInt(`0b${b}`)
+   return sum.toString(2); //return a string of base 2(binary)
+  //transform to binary    
+};
