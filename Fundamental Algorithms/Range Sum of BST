@@ -1,0 +1,28 @@
+//Idea:
+//remember  in-order traverse to popular in BST because
+// output will be in ascending order
+
+var rangeSumBST = function(root, L, R) {
+
+    var sum = 0;
+    dfs(root);
+    return sum;
+    
+    function dfs(node){   //in-order tranverse
+      if(!node) {return 0}
+      if(node.val >=L && node.val <= R){  sum = sum + node.val; } //summing
+      dfs(node.left);
+      dfs(node.right);
+    }
+
+    
+};
+//second way to do it:
+/*
+var rangeSumBST = function(root, L, R, sum=0) {
+    if(!root) return sum;
+    if(root.val<=R && root.val>=L)
+        sum += root.val;
+    return sum + rangeSumBST(root.left, L, R) + rangeSumBST(root.right, L, R);
+};
+*/
