@@ -1,0 +1,29 @@
+//Idea: we use DFS recursion concept:
+var depthSum = function(nestedList) {
+    function getSum(list,depth){
+        return list.reduce((acc,cur) =>{
+            if(cur.isInteger()){ return acc + (cur.getInteger() * depth)}
+            else{return acc +getSum(cur.getList(),depth+1) }
+            },0)
+    }   
+return getSum(nestedList,1)
+};
+
+//Additional information with comments
+
+// const getSum = (list, depth) => {
+// 	return list.reduce((acc, cur) => {
+	
+// 		// Detect if the current value is a Number or a Array
+// 		if (cur.isInteger()) {
+// 			// Simple math, current number multiplied by depth
+// 			return acc + (cur.getInteger() * depth)
+// 		}
+		
+// 		// Array will recursively call itself while increasing depth relative to its current depth
+// 		return acc + getSum(cur.getList(), depth + 1)
+// 	}, 0)
+// }
+
+// // Start the recursive function to get the sum 
+// return getSum(nestedList, 1)
