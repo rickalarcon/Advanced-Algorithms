@@ -1,0 +1,21 @@
+Idea:
+1) we use 1 loop to iterate through the array
+2) we set 2 flags to test if the conditions break the rule
+3) if both flags are false then we inmediadely return false
+4) otherwise we iterate and once done we return flag1 || flag2
+
+*/
+
+var isMonotonic = function(A) {
+    
+    var flag1= true;
+    var flag2= true;
+  
+    for(var i=0; i <A.length-1;i++){
+        if(!flag1 && !flag2){ return false } //reduce time cuz its already false here
+        if( A[i] !== A[i+1] && A[i]>A[i+1]){ flag1 = false} //check if not asc          
+        if( A[i] !== A[i+1] && A[i]<A[i+1] ){ flag2 = false} //check if not desc
+    }
+    return flag1 || flag2
+    
+};
