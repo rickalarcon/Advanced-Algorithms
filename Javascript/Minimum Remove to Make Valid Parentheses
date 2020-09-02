@@ -1,0 +1,28 @@
+/*
+Idea:
+1) input & output are strings
+2) remove MIN parentesis so they all are valid
+3) Stack will hold the indexes of the parentesis "(" or ")"
+that will need to be remove later
+4) we add ( to the stack and then if next value is ) and stack is not zeero 
+then we pop stack , if stack is empty then we delete that value
+5)Finally if the stack is not empty then we do for loop 
+to remove those indexes from our "s"
+*/
+
+
+
+var minRemoveToMakeValid = function(s) {
+    
+    //if doesnt have match then remove it
+    s = s.split(""); 
+    var stack =[]; //we will hold the indexes of parentesis that ned
+    for(let i=0; i<s.length; i++){
+        if(s[i] == "("){ stack.push(i)}
+        else if(s[i] == ")" ) { if(stack.length !==0)stack.pop();
+                                else s[i] = "";} //if it doesnt have match then we delete                                                       it ""
+    }
+    
+      for(let i of stack){ s[i] = ""}  
+return s.join("");
+};
