@@ -1,0 +1,16 @@
+/*
+if n=1 then arr[n-1] gives 1
+if n=2 then arr[n-1] gives 2
+if n=3 then arr[n-1] gives 3
+
+remember permutations, here is way1 +way2 = total ways
+we sum up the different possible ways(we dont do multiplication in this case:))
+*/
+var climbStairs = function(n) {
+    let arr=[1,2,3];
+    for(let i = 3;i<n;i++){// 3,4,5,6...,n-1
+        arr[i]=arr[i-1] + arr[i-2];
+    }
+    console.log(arr)
+    return arr[n-1];
+};
