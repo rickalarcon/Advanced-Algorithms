@@ -1,0 +1,22 @@
+/*
+Idea:
+put ID and scores in a hash table
+then sort scores in desc order, get the top 5 and divided by 5
+then at key and value to the "ans" (note: we round down the value)
+
+*/
+var highFive = function(items) {
+    
+    var hash ={}
+    var ans = [];
+    
+    for(let e of items){
+        hash[e[0]] = hash[e[0]] ==undefined? [e[1]]: [...hash[e[0]],e[1]]
+    }
+    
+    for( let key in hash){
+     var value = hash[key].sort((a,b) => b-a).splice(0,5).reduce( (acc,e) => acc+e,0)/5;
+        ans.push([key,Math.floor(value)])
+    }
+    return ans
+};
