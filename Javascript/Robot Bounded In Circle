@@ -1,0 +1,33 @@
+
+//Initially  our robot stands at (0,0) and faces north
+var isRobotBounded = function(instructions) {
+    let steps = [
+        [-1,0], //left
+        [0,1],  //top
+        [1,0],  //right
+        [0,-1]  //down
+    ];
+    let x = y = 0; // we start at (0,0)
+    
+    let currStep = 1;  //if we do currstep =0, then it wont work the logic if we wanna do      later something like if(currStep<-1){ currStep=..} cuz we will be analyzing dir[-1]..
+    let turn = (direction) =>{
+        if(direction === "L") currStep--
+        else if(direction === "R") currStep++
+        else if(direction === "G") {
+            x += steps[currStep][0];  //0     (0,-1)
+            y += steps[currStep][1];  // -1
+        };
+        if(currStep < 0) currStep = 3 // cuz we will move 180 degree, so go "down"
+        else if(currStep == 4) currStep = 0; //we move 270 degrees right so go "left"
+    }
+    
+    
+    for(let i=0; i<instructions.length*4; i++){ //running 4 cycles to identify trajectory
+       console.log(instructions[i])
+        turn(instructions[i]);
+    }
+    //note: if we delete" *4" it will still work..
+	// I was stucked at the last return. The following line might be the key line for this problem.
+	// as lone as the robot is at (0,0) or not going north, it should be true.
+    return (currStep !== 1) || (x ===0 && y===0);
+};
