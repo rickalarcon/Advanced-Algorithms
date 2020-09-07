@@ -1,0 +1,36 @@
+var fractionAddition = function(expression) {
+  let numerator = 0
+  let denominator = 1
+  
+  let negative = false
+  
+  for (let i = 0; i < expression.length; i++) {
+    if (expression[i] === '-') {
+      negative = true
+      continue
+    } else if (expression[i] === '+') {
+      negative = false
+      continue
+    }
+    
+    let a = 0
+    let b = 0
+    while (!isNaN(expression[i])) {a = a * 10 + parseInt(expression[i++])}; //while number    
+    while (!isNaN(expression[++i])) {b = b * 10 + parseInt(expression[i])};
+    i--
+    
+    numerator = (negative ? -1 : 1) * denominator * a + b * numerator
+    denominator *= b
+    
+    if (!numerator) denominator = 1
+    negative = false
+  }
+  
+  const GCD = (a, b) => { //greater common divisor
+    if (b) return GCD(b, a % b)
+    else return a
+  }
+  
+  const gcd = GCD(Math.abs(numerator), denominator)
+  return `${numerator/gcd}/${denominator/gcd}`
+};
