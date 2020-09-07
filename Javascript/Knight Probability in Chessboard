@@ -1,0 +1,38 @@
+/*
+JavaScript DFS with memoization
+Idea:
+1) create a dfs() function
+    -every level deeper in dfs() we reduce the moves by 1 (moves-1)
+2) storage the final return value of dfs() into the "onboard" variable
+3) return the probability = onboard / total # positions still stop
+*/
+
+var knightProbability = function(N, K, r, c) {
+    
+    const memo = {};
+    
+    function dfs(row, col, moves) {
+        
+        const key = `${moves}:${row}:${col}`; //this is a string
+        
+        if(memo[key]) { return memo[key];}
+        if(row < 0 || row >= N ||col < 0 ||col >= N) {return 0;} //if out of bound
+        if(moves === 0) { return 1; }
+        
+        let inbound = 0;
+        
+        //all 8 posible direccions
+        var dirs = [[-1,2],[1,2],[2,1],[2,-1],[-1,-2],[1,-2],[-2,1],[-2,-1]]
+        for(let dir of dirs){ //scan
+        inbound += dfs(row +dir[0], col+dir[1], moves-1);
+        }
+
+        memo[key] = inbound;  
+        return inbound;
+    } 
+    
+    let onboard = dfs(r, c, K);
+    console.log(onboard,Math.pow(8,K))
+    return onboard/Math.pow(8,K); // (onboard / total # positions still stop)
+    
+};
