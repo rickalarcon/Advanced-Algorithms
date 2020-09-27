@@ -1,0 +1,29 @@
+/*
+1) we add the last element into the stack
+2) we start the loop from right to left to scan only ? or : values
+    - if(e== ":") then push left element from :
+    -else { get left and right 
+            analize T or F , if T: then push left, if F: then push right} 
+3) return stack[0];
+*/
+
+function parseTernary(expression) {
+    
+  const N = expression.length;
+  const stack = [expression[N-1]]; //add last char 
+    
+  for (let i = N-2; i >= 0; i -= 2) { //iterate: ? or : from right to left
+    if (expression[i] === ':') {
+      stack.push(expression[i-1]);
+    } else { 
+      const l = stack.pop();
+      const r = stack.pop();
+      if (expression[i-1] === 'T') {
+        stack.push(l);
+      } else {
+        stack.push(r);
+      }}
+  }
+    
+  return stack[0];
+}
