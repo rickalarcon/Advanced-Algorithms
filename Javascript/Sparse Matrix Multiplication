@@ -1,0 +1,28 @@
+/*
+A x B matrix multiplication mean
+- we multiple row 1 of A with colum 1 of B then add that number
+(2x2) - (3x2) -> (2*2)
+
+*/
+var multiply = function(A, B) {
+
+var A_rows = A.length,
+    B_cols = B[0].length
+
+ans = new Array(A_rows).fill(0).map(e => new Array(B_cols).fill(0))
+for( let i=0; i< A_rows; i++){ //start iterating row by row
+    var j =0;
+    while(j<B_cols){ //iterate col by col
+        var x=0;
+        var acc=0;
+        while(x <A[0].length){ // iterate col to col in A and row to row in B
+          acc += A[i][x]* B[x][j]
+            x++;
+        }
+        ans[i][j] = acc; //acc value 
+        j++;
+    } 
+}   
+    return ans;   
+};
+
