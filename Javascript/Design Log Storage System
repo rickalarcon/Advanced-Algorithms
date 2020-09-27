@@ -1,0 +1,43 @@
+
+var LogSystem = function() {
+    this.storage =[];
+};
+
+/** 
+ * @param {number} id 
+ * @param {string} timestamp
+ * @return {void}
+ */
+LogSystem.prototype.put = function(id, timestamp) {
+    
+    var timestamp = timestamp.split(":").join("");
+    this.storage.push([id,timestamp])
+};
+
+/** 
+ * @param {string} s 
+ * @param {string} e 
+ * @param {string} gra
+ * @return {number[]}
+ */
+LogSystem.prototype.retrieve = function(s, e, gra) {
+     var start= s.split(":").join("");
+     var end  = e.split(":").join("");
+     var hash ={
+         "Year": 4,
+         "Month": 6,
+         "Day":8,
+         "Hour": 10,
+         "Minute": 12,
+         "Second":14} 
+    var ans =[];
+    
+   for(let e of this.storage){
+    if( e[1].substring(0,hash[gra]) >= start.substring(0,hash[gra]) && 
+        e[1].substring(0,hash[gra]) <= end.substring(0,hash[gra])){        
+        ans.push(e[0]);}}
+ 
+console.log(this.storage)
+    return ans
+    
+};
