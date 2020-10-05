@@ -1,0 +1,19 @@
+//Solution 1
+var largestNumber = function(nums) {
+    nums = nums.sort((a, b) => `${b}${a}` - `${a}${b}`) //nums elements will be numbers
+  return !nums[0]? "0" : nums.join('')
+};
+//Solution 2
+// var largestNumber = function(nums) {
+//     nums = nums.map(String);
+//     nums = nums.sort((a, b) => (b + a).localeCompare(a + b)); //nums elements will be strings
+//   return nums[0] == "0" ? "0" : nums.join('')
+// };
+
+// Solution 3
+// let largestNumber = A => {
+//     let S = A.map(String);
+//     S.sort((a, b) => (b + a).localeCompare(a + b));
+//     return S.every(c => c == '0') ? '0' : S.join('');
+// };
+
