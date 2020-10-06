@@ -1,0 +1,11 @@
+var findDuplicates = function(nums) {
+  
+    var set = new Set(); //not allow duplication
+    var ans = []
+    for(let e of nums){
+        if(!set.has(e)){ set.add(e)}
+        else{ ans.push(e)}
+    }
+    
+    return ans;
+};
