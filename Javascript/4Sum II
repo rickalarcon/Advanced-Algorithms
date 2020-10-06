@@ -1,0 +1,26 @@
+
+/*
+Idea:
+1) create a Map() to add the key and value(frequency)
+2) we put -(i+j) so later on if memory.has(m+n)? is true mean the 4 numbers sum Zero 
+3) if 4 numbers sum zero then accumulate the output
+*/
+
+var fourSumCount = function(A, B, C, D) {
+    if (!A || !B || !C || !D) return [];
+    // cuadratic solution... counter, reduced from sum_of_two
+    let memory = new Map();
+    for (let i of A) {
+        for (let j of B) {
+            memory.set(-(i + j), memory.get(-(i + j)) + 1 || 1);
+        }
+    }
+    // look in the map if we have seen the complement of this sum
+    let output = 0;
+    for (let m of C) {
+        for (let n of D) {
+            output += memory.has(m + n)? memory.get(m + n): 0;
+        }
+    }
+    return output;
+};
