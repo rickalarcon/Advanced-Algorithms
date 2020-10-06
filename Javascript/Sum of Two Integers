@@ -1,0 +1,11 @@
+var getSum = function(a, b) {
+    let carry;
+    
+    while(b) {
+        carry = a & b;
+        a ^= b;   //XOR
+        b = carry << 1; //  << means: Zero fill left shift
+    }
+    
+    return a;
+};
