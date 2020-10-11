@@ -1,0 +1,51 @@
+var Vector2D = function(v) {
+    this.array =[];
+    for(let e of v){
+        this.array.push(...e)
+    }
+    this.index = -1;
+    console.log(this.array)
+};
+
+/**
+ * @return {number}
+ */
+Vector2D.prototype.next = function() {
+    this.index++; 
+    return this.array[this.index];
+    
+};
+
+/**
+ * @return {boolean}
+ */
+Vector2D.prototype.hasNext = function() {
+    console.log(this.index+1)
+    if(isNaN(this.array[this.index+1])){ return false}
+    else{ return true}
+};
+
+/** 
+ * Your Vector2D object will be instantiated and called as such:
+ * var obj = new Vector2D(v)
+ * var param_1 = obj.next()
+ * var param_2 = obj.hasNext()
+ */
+
+// class Vector2D {
+//   constructor(v) {
+//     let arr = [];
+//     for (let a of v) {
+//       arr = [...arr, ...a];
+//     }
+//     this.arr = arr;
+//   }
+
+//   next() {
+//     return this.arr.shift();
+//   }
+
+//   hasNext () {
+//     return this.arr.length > 0;
+//   }
+// }
