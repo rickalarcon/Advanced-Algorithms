@@ -1,0 +1,40 @@
+/**
+ * Your NestedIterator will be called like this:
+ * var i = new NestedIterator(nestedList), a = [];
+ * while (i.hasNext()) a.push(i.next());
+*/
+
+/*
+3 API to solve this problem
+isInteger() // judge the element if number
+getInteger() // get number element
+getList() // get not number element
+*/
+
+class NestedIterator {
+    
+    constructor(nestedList){
+        this.list = nestedList;
+
+    }
+    
+    hasNext(){
+    while (this.list.length != 0){
+
+        if (this.list[0].isInteger()){ return true }
+        else {
+            let cur = this.list[0].getList(); //cur is now iterable
+            this.list.shift()
+            this.list.unshift(...cur)}} //we can do ... cuz "cur" is iterable now
+    }
+    next(){
+        return this.list.shift().getInteger()
+    }
+
+}
+ 
+/**
+ * Your NestedIterator will be called like this:
+ * var i = new NestedIterator(nestedList), a = [];
+ * while (i.hasNext()) a.push(i.next());
+*/
