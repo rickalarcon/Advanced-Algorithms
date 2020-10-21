@@ -1,0 +1,31 @@
+/*
+Define overlap?
+Giving the different user sessions
+find how long a user1 stood in our platform. 
+Find 2 sessions overlap then we count it as 1 session.
+*/
+
+var r = [[10, 20],[30, 40], [35, 45], [42, 60],[70,80]];
+
+var merge = function(array){
+  
+ array.sort((a,b) => {return a[0] - b[0] || a[1]-b[1]} ) 
+  
+  var last;
+  var ans =[];
+  array.forEach( e => {
+
+    if(!last || e[0]> last[1] ){ //no overlap
+                 last = e;
+                 ans.push(last);}
+    else if (e[1]> last[1]){     //when overlap, is e[1] greater then last[1]? . if no,                                   then we do nothing
+      last[1] = e[1]                    
+      }
+
+    })
+    
+  console.log(ans)
+
+}
+
+merge(r);
