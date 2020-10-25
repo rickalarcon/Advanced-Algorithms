@@ -1,0 +1,56 @@
+//SOLUTION 1
+/*
+Idea
+1) in the while loop:
+    - we will be removing char that are greater than the last
+2) we can end with k=0 or with k>0 (when K >= of num.length)
+    -for the second case since we already work on getting the min numbers
+    - now we just need to remove the remain k from our stack .thats why we do
+        slice(... , stack.length-k)
+*/ 
+    
+var removeKdigits = function(num, k) {
+    const stack = [];
+    for(let char of num) {
+      while(stack[stack.length - 1] > char && k) {
+        stack.pop(); //remove last item since it is greater than char
+        k--;
+      }
+      stack.push(char); //add char
+    }
+
+    const firstNonZero = stack.findIndex((val) => val !== '0');
+    const res = stack.slice(firstNonZero, stack.length -k ).join('');
+    
+   // console.log(res)
+    return res.length  ? res : '0';
+};
+
+
+//SOLUTION 2
+/*
+var removeKdigits = function(num, k) {
+    const stack = [];
+    let removed = 0;
+    for(let n of num) {
+        while(stack.length && n < stack[stack.length-1] && removed < k) {
+            stack.pop();
+            removed += 1;
+        }
+        stack.push(n);
+    }
+    // remove all remaining large numbers
+    while(removed < k) {
+        stack.pop();
+        removed += 1;
+    }
+    
+    // remove all beginning zeroes
+    while(stack.length && stack[0] === '0') {
+        stack.shift();
+    }
+    
+    return stack.length ? stack.join('') : '0';
+};
+
+*/
