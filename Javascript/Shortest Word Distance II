@@ -1,0 +1,72 @@
+/*
+SOLUTION 1
+IDEA
+create a hash table to add the indexes of word1 and word2
+Then use two for loops to find the MIN distance between then!
+Finally, return the MIN
+*/
+class WordDistance{
+    
+    constructor(word1){
+        
+        this.array = word1;
+    }
+    
+    shortest(word1,word2){
+        
+        var hash = {};
+        for(var i=0; i < this.array.length ;i++){
+        if(this.array[i] == word1){  
+            hash[word1] = hash[word1] == undefined? [i] : hash[word1].concat(i);
+            }
+        else if(this.array[i] == word2){   
+            hash[word2] =  hash[word2] ==undefined? [i] : [...hash[word2],i] ;
+
+            }
+        };
+        var min= Number.MAX_VALUE;
+        for(let a of hash[word1] ){
+          for(let b of hash[word2] ){
+        var temp = Math.abs(a-b);
+         min =  Math.min(min,temp);
+            }
+        }
+        return min
+
+    }
+}
+
+/** 
+ * Your WordDistance object will be instantiated and called as such:
+ * var obj = new WordDistance(words)
+ * var param_1 = obj.shortest(word1,word2)
+ */
+
+/*SOLUTION 2
+function WordDistance(words) {
+  this.words = words;
+  
+  // map words to their indexes in an array
+  this.indexes = words
+    .reduce((map, word, i) => {
+      map[word] = (map[word] || []).concat(i);
+
+      return map;
+    }, {});
+}
+
+WordDistance.prototype.shortest = function(word1, word2) {
+  const xs = this.indexes[word1];
+  const ys = this.indexes[word2];
+
+  let min = Infinity;
+
+  for (let x of xs) {
+    for (let y of ys) {
+      min = Math.min(min, Math.abs(y - x));
+    }
+  }
+
+  return min;
+};
+*/
