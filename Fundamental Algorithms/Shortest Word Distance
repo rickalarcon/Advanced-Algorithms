@@ -1,0 +1,16 @@
+var shortestDistance = function(words, word1, word2) {
+    
+    var min = Number.MAX_VALUE;
+    for(var i=0; i<words.length ;i++){
+        
+        if(words[i]== word1){ var a = i; }
+        else if (words[i]== word2){ var b =i; }
+
+        if(a >=0 && b>=0){
+         var dis = Math.abs(a-b);
+         min = Math.min(min,dis);
+        }
+    }
+    return min;
+    
+};
