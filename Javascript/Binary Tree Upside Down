@@ -1,0 +1,51 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+
+/*
+So let's do a "half" postorder traversal and tweak the left and right pointers bottom up to the root node, and obviously, the leftmost child is our new root.
+*/
+
+//SOLUTION 1:
+  
+var upsideDownBinaryTree = function(root) {
+    if (!root || !root.left && !root.right) {return root;} //return null or root.val
+    
+    var newRoot = upsideDownBinaryTree(root.left);
+    
+    //from the example: Y's left will be pointing to the root(x)'s right
+   // and Y's right will be pointing to the root
+    root.left.left = root.right; // right become left
+    root.left.right = root;      // y's right points to root
+    
+    root.left = null; 
+    root.right = null;
+    
+    return newRoot;
+};
+
+//SOLUTION 2:
+// var upsideDownBinaryTree = function(root) {
+//     return dfs(root);
+    
+//     function dfs(node) {
+//          if (!node) return null;
+//          if (!node.left && !node.right) return node;
+//         const res = dfs(node.left);
+//         const left = node.left;
+//         const right = node.right;
+        
+//         left.right = node;
+//         left.left = right;
+        
+//         node.left = null;
+//         node.right = null;
+        
+//         return res;
+//     }
+// };
