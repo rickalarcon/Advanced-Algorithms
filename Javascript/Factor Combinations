@@ -1,0 +1,60 @@
+/*
+    [[1], [2], [3], [4]]
+    
+    Idea:
+  1)  sqrt is the max number x that can get to n when multiply itselft x*x
+    so we scan all the multiples from i=2 to... i<=sqrt(n)
+  2) Second for loop is based on each i & nextVal from the first loop
+  3) "si" in the loop is where we start our multiples till i<=sqrt(n)
+ */
+var getFactors = function(n, si = 2) { //"si is 
+    const ans = [];
+    
+    for (let i = si; i <= Math.sqrt(n); i++) { 
+        if (n % i === 0) { //if n is multiple of i
+            const nextVal = n / i;
+            ans.push([i, nextVal]);
+
+            for (const arr of getFactors(nextVal, i)) {
+                ans.push([i, ...arr]);
+            }
+        }
+    }
+    
+    return ans;
+};
+
+/*
+//SOLUTION 2
+function getFactors(n) {
+    return factor(n, 2);
+}
+
+function factor(n, start) {
+    if (n <= 0 || start <= 0) return [];
+
+    let ret = [];
+
+    // The max divisor is the sqrt. after that the rest are just duplicates in reverse
+    // e.g 8 = 2*4 or 4*2, we only want to find 2*4
+    const maxDivisor = Math.floor(Math.sqrt(n));
+
+    // start is the starting divisor to try
+    for (let i = start; i <= maxDivisor; i++) {
+        if (n % i === 0) { // found a divisor
+            let remain = Math.floor(n / i);
+
+            // we have one possible factoring, add to list
+            ret.push([i, remain]);
+
+            // get possible factorings of remain, with all divisors starting from i
+            let rest = factor(remain, i);
+
+            // if we found any, then add them to result
+            // rest is an array of arrays
+            rest.forEach(e => ret.push([i, ...e]));
+        }
+    }
+    return ret;
+};
+*/
