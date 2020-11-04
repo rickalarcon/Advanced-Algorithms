@@ -1,0 +1,48 @@
+//SOLUTION 1
+var triangleNumber = function(nums) {
+    var count = 0;
+    var arr = []
+    for(var i=0; i<nums.length-2;i++){
+      for(var j=i+1; j<nums.length-1;j++){
+         for(var k=j+1; k<nums.length;k++){
+           var a = nums[i],
+               b = nums[j],
+               c = nums[k];         
+          if(  a + b > c &&  b + c > a &&  a + c > b ){
+              count++;
+          }
+    }}}
+    return count;
+};
+
+
+
+/*
+SOLUTION 2
+// [2,2,3,4]
+// k < j < i
+ i          j   k
+[3, 19, 22, 24, 35, 82, 84]
+because 3 + 24 < 35, if we move j to the left, the sum will become even smaller, so we have to move pointer i to the next number 19, and now we found that 19 + 24 > 35, and we don't need to scan 22, we know that 22 must be ok!
+*/
+var triangleNumber = function(nums) {
+    nums.sort((a, b) => a - b); //asc order
+    
+    let counter = 0;
+    
+    for (let i = nums.length - 1; i > 1; --i) { //last...2
+        let j = i - 1;
+        let k = 0;
+        
+        while (k < j) {
+            if (nums[k] + nums[j] > nums[i]) { //cuz its order in asc order
+                counter += j - k;
+                --j;
+            } else {
+                ++k;
+            }
+        }
+    }
+        
+    return counter;
+}
