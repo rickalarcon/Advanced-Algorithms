@@ -1,0 +1,26 @@
+/*
+Idea:
+1) Push elements and results in the stack
+2) Create a hash table key and value, to do the operations +, -, *,/
+3) Use if statement to filter between symbols and strings
+*/
+
+function evalRPN(tokens) {
+  let stack = [];
+  let ops = {
+    '+': (a, b) => a + b,
+    '-': (a, b) => a - b,
+    '*': (a, b) => a * b,
+    '/': (a, b) => a / b >= 0 ? Math.floor(a / b) : Math.ceil(a / b),
+  };
+  for (let t of tokens) {
+    if (ops[t]) { //check for symbol
+      let top = stack.pop();
+      let second = stack.pop();
+      stack.push(ops[t](second, top));
+    } else {
+      stack.push(Number(t));
+    }
+  }
+  return stack.pop();
+};
