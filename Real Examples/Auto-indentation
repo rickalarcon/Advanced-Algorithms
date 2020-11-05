@@ -1,0 +1,41 @@
+/*
+CREATING A FUCNTION TO AUTO-INDENT A LIST OF STRINGS LIKE A CODE EDITOR
+if(a>0){
+  var a = 10;
+  if( a<5){ 
+    break;
+  }
+}
+*/
+
+var a = ["  if(a>0){" ,"  var a = 10;","  if( a<5){ ","break;","}","}"]
+
+/*
+Idea
+1) level keep track of the level of indentantion
+2) we first push all the elements that not have "}"
+3) we will push "}" after we reduced the level so everything is aligned
+
+*/
+var indent = function(array){
+  var ans = [];
+  var level = 0;  
+  
+ for(var i=0; i < array.length; i++){
+  
+  if(!array[i].includes("}")){
+   ans.push( " ".repeat(level) +array[i].trim());
+  }
+   
+   if(array[i].includes("{") ){ 
+     level++ ;
+   }
+   else if(array[i].includes("}") ){ 
+     level = level -1                                 
+     ans.push( " ".repeat(level)+array[i].trim());}
+   }
+
+  console.log(ans)
+}
+    
+indent(a);
