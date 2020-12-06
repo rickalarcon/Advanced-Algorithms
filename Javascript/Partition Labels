@@ -1,0 +1,27 @@
+/*
+A string S of lowercase English letters is given. We want to partition this string into as many
+parts as possible so that each letter appears in at most one part, and return a list of integers
+representing the size of these parts.
+*/
+
+function partitionLabels(S) {
+  const len = S.length;
+  const idxs = []; 
+  const res = [];
+
+  for (let i = 0; i < len; i++) {
+    idxs[S[i]] = i;   //create a map to store last index of character occurance
+  }
+  let bound = 0;
+  let l = 0;
+  for (let r = 0; r < len; r++) {
+    bound = Math.max(bound, idxs[S[r]]);// We know that it needs to stop here if it's the max
+    //ie, if the map[S[i]] is less than end, we know it'll be included in this string, so no need to update it.
+    if (bound === r) { //check if current bound is stopping point;
+      res.push(r-l+1);
+      l = r+1;
+    }
+  }
+
+  return res;
+}
