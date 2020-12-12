@@ -1,0 +1,82 @@
+/*
+
+
+2  ABC
+3  DEF
+4  GHI
+5  JKL
+6  MNO (on some older telephones, MN)
+7  PQRS (on older telephones, PRS)
+8  TUV
+9  WXYZ (on older telephones, WXY)
+
+input1 = 4653
+
+4 = g,h,i
+6 = m,n,o
+5 = j,k,l
+3 = d,e,f
+
+
+*/
+
+//input1 = 4653
+//input 2= dict = ['A', 'APPLE', ... ]
+
+
+
+function my_func(num,dic){
+  
+  //map
+  let map = {
+  2: ['A', 'B', 'C'], 
+  3: ['D', 'E', 'F'], 
+  4: ['G', 'H', 'I'],  
+  5: ['J', 'K', 'L'],  
+  6: ['M', 'N', 'O'],  
+  7: ['P', 'Q', 'R', 'S'],
+  8: ['T', 'U', 'V'], 
+  9: ['W', 'X', 'Y', 'Z']};
+  
+    let arr = [];
+  
+  for(let e of num.toString()){
+    arr.push(map[e]); //getting the values
+    
+  }
+
+
+  let ans = [];
+  let max = arr.length-1;
+  
+  function helper(x,i){
+    for(let j=0 ; j<arr.length; j++){ // # item
+      let a = [...x]; //clone x
+      a.push(arr[i][j]);
+      if(i == max){ ans.push(a)}
+      else{ helper(a,i+1)};
+    }
+  }
+  
+  
+  
+  helper([],0);
+  
+
+  
+  let ans2 = []
+  for(let e of ans){
+   let substring = e.join("");
+    console.log(substring)
+   if(dic.includes(substring)){ ans2.push(substring) }
+  }
+   
+  
+ // console.log(ans)
+  
+  
+return ans2;
+}
+
+
+console.log(my_func(465,['A', 'APPLE','GOLD',"H","GNL"]));
