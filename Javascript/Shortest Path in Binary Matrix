@@ -1,0 +1,41 @@
+/*
+IDEA: Using BFS with a queue!
+
+This is actually the question of finding shortest path beween source and distnation in a 2D-array.
+Instead of moving on 4 direactions, we need to move to 8 directions for this question.
+C_i and C_i + 1 are different and share an edge or corner
+
+We need keep traking cells that have been visited. Usually we can create a same size 2D-array to mark visited cell, for this question, however, it didn't mention that we can't modifiy original 2D-array, so we can just flip 0 to 1 to mark it as visited.
+
+we keep checking the queue till we return dist or its empty
+*/
+var shortestPathBinaryMatrix = function(grid) {  
+  if (grid[0][0]) return -1;
+  
+  const queue = [{ coord: [0, 0], dist: 1 }];
+  const directs = [[-1, -1], [-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1]];
+  const N = grid.length;
+  const isValidCoord = (x, y) => x >= 0 && x < N && y >= 0 && y < N;
+  
+  grid[0][0] = 1;
+  
+  while (queue.length) {
+    const { coord: [x, y], dist } = queue.shift(); //dequeueing
+    console.log({ coord: [x, y], dist });
+    if (x === N - 1 && y === N - 1) { //check if its bottom right
+      return dist;
+    }
+    
+    for (let [moveX, moveY] of directs) {
+      const nextX = x + moveX;
+      const nextY = y + moveY;
+      
+      if (isValidCoord(nextX, nextY) && grid[nextX][nextY] === 0) {
+        queue.push({ coord: [nextX, nextY], dist: dist + 1 }); //enqueueing
+        grid[nextX][nextY] = 1;
+      }
+    }
+  }
+  
+  return -1;
+};
