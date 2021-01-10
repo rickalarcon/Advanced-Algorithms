@@ -1,0 +1,63 @@
+/*
+1) find substring within (__)
+2) calculate * or / then + or -
+3) delete subtring from original string
+4) repeat
+
+*/
+
+var calculate = function(s) {
+    
+    let i=0
+    const operators = new Set(['+', '-', '*', '/'])
+    const getSum = () => {
+        let [sum, lastOp, num, lastSum, LEN] = [0, '+', 0, 0, s.length]
+        
+        while (i< LEN) {
+            let currentChar = s[i]
+            //first check
+            if (currentChar === '(') {
+                i++
+                num = getSum()
+            } else {
+                // get the current num
+                if (currentChar >= '0' && currentChar <= '9') {
+                    num = num*10 + parseInt(currentChar)
+                }
+            }
+           //Second check
+            if (operators.has(currentChar) || i>= LEN-1 || currentChar ===')') {
+                if (lastOp === '+') {
+                    sum += lastSum
+                    lastSum=num
+                } else if (lastOp === '-') {
+                    sum += lastSum
+                    lastSum = -num
+                } else if (lastOp === '*') {
+                    lastSum *= num
+                } else if (lastOp === '/') {
+                    lastSum = Math.trunc(lastSum/num)
+                }
+                num = 0
+                lastOp = currentChar
+                
+                // console.log('xxx1', sum, currentChar, lastOp, num, lastSum, LEN)
+            }
+        //Thrid check
+            if (currentChar === ')') {
+                sum += lastSum
+                // console.log(currentChar, sum, lastSum, num);
+                // i++
+                return sum
+            }
+            
+            // console.log('xxx2', sum, currentChar, lastOp, num, lastSum, LEN)
+            i++
+        }
+        
+        sum += lastSum
+        return sum
+    }
+    
+    return getSum()
+};
