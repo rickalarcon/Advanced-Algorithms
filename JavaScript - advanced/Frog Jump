@@ -1,0 +1,43 @@
+A frog is crossing a river. The river is divided into some number of units, and at each unit, there may or may not exist a stone. The frog can jump on a stone, but it must not jump into the water.
+
+Given a list of stones' positions (in units) in sorted ascending order, determine if the frog can cross the river by landing on the last stone. Initially, the frog is on the first stone and assumes the first jump must be 1 unit.
+
+If the frog's last jump was k units, its next jump must be either k - 1, k, or k + 1 units. The frog can only jump in the forward direction.
+
+//SOLUTION1: DP
+function canCross(stones) {
+  let dp = [[0]];
+  
+  for (let i = 1; i < stones.length; i++) {
+    dp[i] = [];
+    for (let j = 0; j < i; j++) {
+      for (let step of dp[j]) {
+        if (Math.abs(stones[j]+step-stones[i]) <= 1) {
+          dp[i].push(stones[i]-stones[j]);
+          break;
+        }
+      }
+    }
+  }
+  
+  return dp[stones.length-1].length > 0;
+}
+
+//SOLUTION2:Recursion , memonization
+/*
+var canCross = function(stones) {
+    const pos = new Set();
+    for (let s of stones) {pos.add(s);}
+    return helper(pos, stones[stones.length - 1]);
+};
+
+function helper(pos, end, curr = 0, jump = 1, memo = new Map()) {
+    if (!pos.has(curr)) return false;
+    let key = curr + ',' + jump;
+    if (memo.has(key)) return memo.get(key);
+    if (curr === end) return true;
+    let less = jump > 1 ? helper(pos, end, curr + jump, jump - 1, memo) : false;
+    memo.set(key, less || helper(pos, end, curr + jump, jump, memo) || helper(pos, end, curr + jump, jump + 1, memo));
+    return memo.get(key);
+}
+*/
