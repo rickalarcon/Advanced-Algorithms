@@ -1,0 +1,76 @@
+/*
+Write a program to solve a Sudoku puzzle by filling the empty cells.
+
+A sudoku solution must satisfy all of the following rules:
+
+Each of the digits 1-9 must occur exactly once in each row.
+Each of the digits 1-9 must occur exactly once in each column.
+Each of the digits 1-9 must occur exactly once in each of the 9 3x3 sub-boxes of the grid.
+The '.' character indicates empty cells.
+*/
+
+
+
+
+//Solution: Using Back-Tracking:
+/*
+Algorithm
+
+Now everything is ready to write down the backtrack function backtrack(row = 0, col = 0).
+
+1) Start from the upper left cell row = 0, col = 0. Proceed till the first free cell.
+
+2) Iterate over the numbers from 1 to 9 and try to put each number d in the (row, col) cell.
+
+3)If number d is not yet in the current row, column and box :
+
+   - Place the d in a (row, col) cell.
+   - Write down that d is now present in the current row, column and box.
+   - If we're on the last cell row == 8, col == 8 :
+        *That means that we've solved the sudoku.
+   - Else
+        *Proceed to place further numbers.
+   - Backtrack if the solution is not yet here : remove the last number from the (row, col)         cell.
+*/
+
+var solveSudoku = function(board) {
+    solve(board, 0, 0);
+};
+
+var solve = function(board, row, col){
+    
+    for(let i=row; i<9; i++, col=0){ // note: must reset col here!
+        for(let j=col; j<9; j++){
+            if(board[i][j] !== '.') continue;
+            for(let c=1; c<=9; c++){ //number to add..
+                if(isValid(board, i, j, c.toString())){
+                    board[i][j] = c.toString(); //adding c to this location
+                    
+                    if(solve(board, i, j+1)){return true;}
+                    board[i][j] = '.';
+                }
+            }
+            return false;
+        }
+    }
+    return true;
+}
+
+var isValid = function(board, x, y, c){
+    let rowStart = Math.floor(x/3) * 3;
+    let colStart = Math.floor(y/3) * 3;
+    
+    for(let i=0; i<9; i++){
+        if(board[i][y] === c || board[x][i] === c) return false; //to check rows and cols
+    }
+    
+    for(let i=0; i<3; i++){
+        for(let j=0; j<3; j++){
+            if(board[rowStart+i][colStart+j] === c) return false; //to check sub-box
+        }
+    }
+    
+    return true;
+}
+
+// Reference:https://leetcode.com/problems/sudoku-solver/discuss/15752/Straight-Forward-Java-Solution-Using-Backtracking/15800
