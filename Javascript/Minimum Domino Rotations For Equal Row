@@ -1,0 +1,74 @@
+/*
+In a row of dominoes, A[i] and B[i] represent the top and bottom halves of the ith domino.  (A domino is a tile with two numbers from 1 to 6 - one on each half of the tile.)
+We may rotate the ith domino, so that A[i] and B[i] swap values.
+Return the minimum number of rotations so that all the values in A are the same, or all the values in B are the same.
+If it cannot be done, return -1.
+*/
+
+
+/*
+
+numberofA will be track of the frequency a number x in A occur (the x is
+represented as the index in numberofA)
+
+//a full row of same number has the length of A.length, thaths why:
+numberOfA[i] + numberOfB[i] - same[i] == A.length 
+we sustract the same[i] to exclude duplicates
+*/
+//SOLUTION 1: Using Arrays, Time complexity O(n)
+var minDominoRotations = function (A, B) {
+  const numberOfA = new Array(7).fill(0); //7 cuz index will be from 1 to 6
+  const numberOfB = new Array(7).fill(0);
+  const same      = new Array(7).fill(0);
+  for (let i = 0; i < A.length; i++) { //add 
+    numberOfA[A[i]]++;
+    numberOfB[B[i]]++;
+    if (A[i] == B[i]) same[A[i]]++;
+  }
+  console.log( numberOfA, numberOfB,same)
+  for (let i = 1; i <= 6; i++) {
+    if (numberOfA[i] + numberOfB[i] - same[i] == A.length) { 
+      return Math.min(numberOfA[i] - same[i], numberOfB[i] - same[i]);
+    }
+  }
+  return -1;
+}
+
+/*
+SOLUTION 2: Using Hash table
+var minDominoRotations = function(A, B) {
+    if(A.length === 1) {
+        return 0;
+    }
+    let countA = {};
+    let countB = {};
+    let same = {};
+    let n = A.length;
+    
+    for(let i=0; i<A.length; i++) {
+        const a = A[i];
+        const b = B[i];
+        countA[a] = countA[a] + 1 || 1;
+        countB[b] = countB[b] + 1 || 1;
+        
+        if(a === b) {
+            same[a] = same[a] + 1 || 1;
+        }
+    }
+    
+    // loop through all possible domino numbers 1 through 6
+    for(let i=1; i<7; i++) {
+        const a = countA[i];
+        const b = countB[i];
+        const s = same[i] || 0;
+        const max = Math.max(a, b);
+        // excluding all duplicates (same arr), check if it's possible at all
+        if(a + b - s == A.length) {
+            return n - max;
+        }
+    }
+    
+    return -1;
+
+};
+*/
