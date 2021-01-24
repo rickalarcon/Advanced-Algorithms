@@ -1,0 +1,40 @@
+/*
+Basically keep length of each parent level in stack and only update 
+result when there is a '.' in current level of path.
+*/
+function lengthLongestPath(input) {
+	var stack = [];
+
+	return input.split('\n').reduce((max, p) => {
+		var level = p.lastIndexOf('\t') + 1;
+		stack[level] = p.length - level + (level ? stack[level - 1] : 0);
+		return p.indexOf('.') === -1 ? max : Math.max(max, stack[level] + level);
+	}, 0);
+}
+
+/*
+The idea
+The only things we care about are the depth/level of the current dir , and the length for current dir/file, we can store these information as an array
+The depth can be calculated by counting \t in the currendir/file
+*/
+
+/*
+var lengthLongestPath = function(input) {
+    let dir = input.split('\n');
+    console.log(dir)
+    let max = 0;
+    let length = [];
+    let depth= 0;
+    for (let i=0;i<dir.length;i++) {
+        depth = dir[i].lastIndexOf('\t')+1; // depth ~ level
+        if (dir[i].includes('.')) { //is a file
+            let fileLength = dir[i].length-depth; //depth = number of tabs to its left
+            max = Math.max((length[depth-1]+1||0) + fileLength , max); //depth-1 is 1 level less
+        } else { //is a folder
+            length[depth] = dir[i].length - depth + (length[depth-1]+1||0); // = "abc" + prev_level+1 => +1 is cuz /
+        }
+    }
+    return max;
+};
+
+*/
