@@ -1,0 +1,32 @@
+/*
+2 basquets:
+    -type 1 - any quantity
+    -type 2 - any quantity
+IDEA:
+1) put the frequency of word in a hash table
+2) keep summing till hash has 3 or more elements
+    3) if hash >2 -> then start sustration frequency
+        from the first element of the hash (left to right)
+4) return total
+
+*/
+
+
+var totalFruit = (A) => {
+    let total = 0;
+    let cnt = {}
+        i = 0,
+        j = 0;
+    while (j < A.length) {
+        cnt[A[j]] = cnt[A[j]] ? cnt[A[j]] + 1 : 1; //add frequency
+        ++j;
+        while (Object.keys(cnt).length > 2) { 
+            --cnt[A[i]];   
+            if (cnt[A[i]] == 0)
+                delete cnt[A[i]];
+            ++i;
+        }
+        total = Math.max(total, j - i);
+    }
+    return total;
+};
