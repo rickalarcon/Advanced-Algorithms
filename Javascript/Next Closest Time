@@ -1,0 +1,62 @@
+/* Question
+Given a time represented in the format "HH:MM", form the next closest time by reusing the current digits. There is no limit on how many times a digit can be reused.
+
+You may assume the given input string is always valid. For example, "01:34", "12:09" are all valid. "1:34", "12:9" are all invalid.
+*/
+/*
+IDEA:
+1) Sort the numbers  in "time" in ASC order
+2) We have 4 cases to find the closest time
+    - unit digit of minutes
+    - tenths digit of minutes
+    - unit digit of hours
+    - tenths digit of hours
+*/
+var nextClosestTime = function(time) {
+    const nums = time.replace(/:/, "").split("").sort((a, b) => a - b);
+    // For the unit digit of minutes (ei -> 13:2x)
+    for (let i = 0; i < 4; i++) { 
+        const char = nums[i];
+        const prevMins = parseInt(time.substring(3)); //prevmins == last 2 digits
+        const newMins = parseInt(time[3] + char);  //12:3
+        
+        if (newMins < 60 && newMins > prevMins){
+           return time.substring(0, 3) + time[3] + char; 
+        } 
+    }
+     
+	// For the tenths digit of minutes (ei -> 13:x3)
+    for (let i = 0; i < 4; i++) {
+        const char = nums[i];
+        const prevMins = parseInt(time.substring(3));
+        const newMins = parseInt(char + time[4]);
+            
+        if (newMins < 60 && newMins > prevMins) {
+            return time.substring(0, 3) + char + nums[0];
+        }
+    }
+    
+	// For the unit digits of hours (ei -> 2x:34)
+    for (let i = 0; i < 4; i++) {
+        const char = nums[i];
+        const prevHours = parseInt(time.substring(0, 2));
+        const newHours = parseInt(time.charAt(0) + char);
+        
+        if (newHours < 24 && newHours > prevHours)  {
+            return time.charAt(0) + char + ":" + nums[0] + nums[0];
+        }
+    }
+    
+	// For the tenth digits of hours (ei -> x3:34)
+    for (let i = 0; i < 4; i++) {
+        const char = nums[i];
+        const prevHours = parseInt(time.substring(0, 2));
+        const newHours = parseInt(char + time.charAt(1));
+        
+        if (newHours < 24 && newHours > prevHours) {
+            return char + nums[0] + ":" + nums[0] + nums[0]; 
+        }
+    }
+    
+    return nums[0] + nums[0] + ":" + nums[0] + nums[0];
+};
