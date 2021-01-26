@@ -1,0 +1,27 @@
+/*
+Using Top Down DFS - Time complexity of O(n)
+
+*/
+
+var longestConsecutive = function(root) {
+    
+    let maxLength = 0;
+    dfs(root, null, 0)
+    return maxLength; 
+    
+    function dfs(tree, parent, length) {
+        if (!tree) {return;}
+        
+        if (parent !== null && parent.val + 1 === tree.val) {
+            length += 1
+        } else {
+            length = 1;
+        }
+        
+        maxLength = Math.max(length, maxLength);    
+        dfs(tree.left, tree, length);
+        dfs(tree.right, tree, length);
+    
+    }
+    //this
+};
