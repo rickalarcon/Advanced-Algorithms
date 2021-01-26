@@ -1,0 +1,61 @@
+/*
+REMEMBER:
+a graph is a tree if:
+    - doesnt have cycles
+    - graph is fully connected!
+Using DFS to solve graph:
+1) Built a abjancy list
+2) Initized visited, parent and containCycles
+3) Create DFS:
+    -add visited root
+    - iterate neighbors of root
+        -if neigborh was visited
+            -checking when cycle
+        -else add parent
+
+*/
+
+var validTree = function(n, edges) {
+    if (n < 2) return true;
+    var adj = {};
+
+    // Initalize adjacency list
+    for (var i=0; i<n; i++) {
+        adj[i] = [];
+    }
+
+    // Populate adjacency list
+    for (var edge of edges) {
+        adj[edge[0]].push(edge[1]);
+        adj[edge[1]].push(edge[0]);
+    }
+    
+
+    // Check if there are cycles
+    var visited = new Set(),
+        parent = {},
+        containsCycles = false;
+    function dfs(root) {
+        visited.add(root);
+        for (var neighbor of adj[root]) {
+            if (visited.has(neighbor)){
+                if (parent[root] !== neighbor) { //if has more than 1 parent, then its cycle
+                    // Cycle detected
+                    containsCycles = true;
+                } else {
+                    // Leave parent as is
+                    continue;
+                }
+            } else {
+                // New node
+                parent[neighbor] = root;
+                dfs(neighbor);
+            }
+        }
+    }
+    dfs(0);
+    if (containsCycles) return false;
+
+    // Check if the graph is connected (tree contains all nodes)
+    return visited.size === n;
+};
