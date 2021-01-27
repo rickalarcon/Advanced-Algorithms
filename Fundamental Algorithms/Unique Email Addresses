@@ -1,0 +1,15 @@
+var numUniqueEmails = function(emails) {
+  
+    let ans = new Set();
+    for(let email of emails){
+    
+        let at = email.indexOf("@");
+        let local_name= email.substring(0,at);
+        let domain = email.substring(at);
+        
+        //take the first element after splitted by + and replace all dots by ""
+       ans.add(local_name.split("+")[0].replace(/\./g,"")+domain)
+
+    }
+    return ans.size;
+};
