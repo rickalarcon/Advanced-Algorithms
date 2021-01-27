@@ -1,0 +1,37 @@
+//SOLUTION 1
+var licenseKeyFormatting = function(S, k) {
+    
+    
+   let string = S.toUpperCase().split("-").join("");
+   let license = [];
+
+    string = string.split("");
+    while(string.length){
+        
+        if(string.length>k){
+       let substring = string.splice(string.length-k);
+         license.unshift(substring.join(""));
+
+        }
+        else{
+            license.unshift(string.join(""));
+            break;            
+        }
+    
+        
+    }
+//console.log(string,license)
+return license.join("-");
+};
+
+//SOLUTION 2
+/*
+    const newStr = S.replace(/-/g, '').toUpperCase(), // Remove existing dashes and convert any lowercase letters to uppercase
+             arr = newStr.split(''); // Convert string to an array so we can manipulate it
+
+    for (let i = arr.length - 1 - K; i >= 0; i-= K) { // Loop through array backwards and decrement by value of K
+        arr[i] = arr[i] + '-';
+    }
+
+    return arr.join('');
+*/
