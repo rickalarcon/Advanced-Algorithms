@@ -1,0 +1,35 @@
+/*
+You have n bulbs in a row numbered from 1 to n. Initially, all the bulbs are turned off. We turn on exactly one bulb every day until all bulbs are on after n days.
+
+You are given an array bulbs of length n where bulbs[i] = x means that on the (i+1)th day, we will turn on the bulb at position x where i is 0-indexed and x is 1-indexed.
+
+Given an integer k, return the minimum day number such that there exists two turned on bulbs that have exactly k bulbs between them that are all turned off. If there isn't such day, return -1.
+*/
+
+
+
+// Runtime: O(n)
+
+function kEmptySlots(flowers, k) {
+  let days = new Array(flowers.length);
+
+  //days is similar to positions where we plant the flowers in each index
+  flowers.forEach((spot, day) =>  days[spot - 1] = day + 1); 
+  let left = 0;
+  let right = k + 1;
+  let result = Number.MAX_VALUE;
+
+  for (let i = 1; right < days.length; i++) {
+    // current spot is valid, meaning continue to scan
+    if (days[i] > days[left] && days[i] > days[right]) continue;
+
+    // reached boundary of sliding window, since previous spots were all valid, record result
+    if (i === right) result = Math.min(result, Math.max(days[left], days[right]));
+
+    // not valid anymore, move the sliding window
+    left = i;
+    right = k + 1 + i;
+  }
+
+  return result === Number.MAX_VALUE ? -1 : result;
+}
