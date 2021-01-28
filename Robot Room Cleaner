@@ -1,0 +1,38 @@
+var cleanRoom = function(robot) {
+       //directions = [top,right,down,left] ->order matters
+    const directions = [[-1,0],[0,1],[1,0],[0,-1]],
+          visited = new Set();
+    /**
+     * @return {void}
+     */
+    function goBack() {
+        //move back 180 degress
+        robot.turnRight();
+        robot.turnRight();
+        robot.move();
+        //once back point to the same direction it was
+        robot.turnRight();
+        robot.turnRight();
+    }
+    /**
+     * @param {number[]} cell
+     * @param {numver} prev
+     * @return {void}
+     */
+    function backtrack(cell, prev) {
+        visited.add(cell.join());
+        robot.clean();
+        for (let d = 0; d < 4; d++){//going clockwise-> 0: 'up', 1: 'right', 2: 'down', 3: 'left'
+
+            const next = (prev + d) % 4; //to control the clockwise, "next" can only be 0,1,2 or 3.
+            const nextCell = [cell[0] + directions[next][0], cell[1] + directions[next][1]];
+            if (!visited.has(nextCell.join()) && robot.move()) { //if havent visit & can move..
+                backtrack(nextCell, next);
+                goBack();
+            }
+            robot.turnRight();
+        }
+    }
+    
+    backtrack([0,0], 0);
+};
