@@ -1,0 +1,21 @@
+var canDistribute = function(nums, quantity) {
+    let map = new Map();    //key :frequency
+    nums.map(e => map.set(e, (map.get(e)||0)+1 ))
+
+    let dfs = function(i, map) {
+        if (i === quantity.length) {
+            return true;
+        }
+        let set = new Set();
+        for (let [key,val] of map.entries()) {
+            if (val < quantity[i] || set.has(val)) continue;
+            map.set(key, val-quantity[i]);
+            set.add(val);
+            if (dfs(i+1, map)) return true;
+            map.set(key, val);
+        }
+        return false;
+    }
+    
+    return dfs(0, map);
+};
